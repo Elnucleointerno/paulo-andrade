@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diseño — Paulo Andrade</title>
+<meta name="description" content="Paulo Andrade — diseño gráfico: portadas y piezas experimentales.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/variant-a.css">
+<link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html#inicio" class="logo">PAULO ANDRADE <span>//</span></a>
+    <nav class="nav-links">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="index.html#audiovisual">Audiovisual</a>
+      <a href="index.html#apps">Apps &amp; Herramientas</a>
+      <a href="index.html#clientes">Trabajos para clientes</a>
+      <a href="index.html#music">Angloguaraní Records</a>
+      <a href="diseno.html">Diseño</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= DISEÑO ================= -->
+<section class="section" id="diseno">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Diseño</div>
+      <h2 class="section-title">Diseño gráfico</h2>
+      <p class="section-intro">
+        Piezas visuales. Guardá las imágenes en <code>assets/diseno/</code> con
+        estos nombres de archivo para que aparezcan automáticamente acá.
+      </p>
+    </div>
+
+    <h3 class="gallery-group-title">Portadas</h3>
+    <div class="gallery">
+      <figure class="gallery-item">
+        <img src="assets/diseno/desierto-de-olas-icaro-al-sol.jpg" alt="Desierto de Olas — Ícaro al Sol" loading="lazy">
+        <figcaption>Desierto de Olas — Ícaro al Sol</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="gallery-group-title">Piezas experimentales</h3>
+    <div class="gallery">
+      <figure class="gallery-item">
+        <img src="assets/diseno/icaro-al-sol.jpg" alt="Ícaro al Sol" loading="lazy">
+        <figcaption>Ícaro al Sol</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="assets/diseno/montana.jpg" alt="Montaña" loading="lazy">
+        <figcaption>Montaña</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="assets/diseno/nucleo-eterno.jpg" alt="El Núcleo Eterno" loading="lazy">
+        <figcaption>El Núcleo Eterno</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="assets/diseno/volcan.jpg" alt="Volcán" loading="lazy">
+        <figcaption>Volcán</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="assets/diseno/icaro-base-aya.jpg" alt="Ícaro base Aya" loading="lazy">
+        <figcaption>Ícaro base Aya</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Paulo Andrade. Todos los derechos reservados.</p>
+    <a class="back-to-top" href="index.html#inicio">volver arriba ↑</a>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/lightbox.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
