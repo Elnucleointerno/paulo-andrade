@@ -1,0 +1,621 @@
+/* ==========================================================================
+   Secciones de contenido: Apps & Herramientas, Angloguaraní Records,
+   Diseño, Contacto, Footer. Comparte custom properties con variant-*.css.
+   ========================================================================== */
+
+.section {
+  padding: 120px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: 64px;
+}
+
+.section-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 16px;
+}
+
+.section-intro {
+  color: var(--text-muted);
+  font-size: 1.02rem;
+}
+
+/* ---------- Pendiente badge (placeholders de contenido) ---------- */
+
+.pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  border: 1px dashed var(--accent-2);
+  padding: 3px 8px;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+.pending::before {
+  content: "●";
+  font-size: 0.6rem;
+}
+
+/* ---------- Apps & Herramientas ---------- */
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.project-card:nth-child(even) .project-media {
+  order: 2;
+}
+
+.project-index {
+  font-family: var(--font-heading);
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.project-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+}
+
+.project-card > .project-body > p.project-desc {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.project-tags span {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--accent-1);
+  background: rgba(182, 255, 60, 0.06);
+  border: 1px solid var(--border-strong);
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+.project-meta {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 16px 40px;
+}
+
+.project-meta dt {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+
+.project-meta dd {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.project-note {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--accent-2);
+  font-style: italic;
+}
+
+.project-context {
+  margin-top: -8px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+/* video embed */
+
+.video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #0a0f0c;
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.fullscreen-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.fullscreen-link:hover {
+  color: var(--accent-1);
+}
+
+.video-embed--pending {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  background-image: repeating-linear-gradient(
+    -45deg, var(--border) 0 2px, transparent 2px 12px
+  );
+}
+
+.video-embed--pending p {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+
+.video-embed--pending span {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin-top: 6px;
+}
+
+/* terminal mock (Karaoke Maker) */
+
+.terminal-window {
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #060907;
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #0b100d;
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-titlebar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.terminal-titlebar .t-label {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  margin-left: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: #c9d6ce;
+  white-space: pre-wrap;
+}
+
+.terminal-body .t-prompt {
+  color: var(--accent-2);
+}
+
+.terminal-body .t-ok {
+  color: var(--accent-1);
+}
+
+.terminal-body .t-dim {
+  color: var(--text-faint);
+}
+
+.mini-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mini-gallery .gallery-item {
+  aspect-ratio: 3 / 4;
+}
+
+.section-footnote {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px dashed var(--border-strong);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.section-footnote a {
+  color: var(--accent-1);
+  font-family: var(--font-heading);
+  margin-left: 4px;
+}
+
+.section-footnote a:hover {
+  color: var(--accent-2);
+}
+
+/* ---------- Angloguaraní Records ---------- */
+
+.music-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.music-block h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--accent-1);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-list a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.link-list a:hover {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+}
+
+.link-list a .arrow {
+  color: var(--text-faint);
+  font-family: var(--font-heading);
+}
+
+.spotify-embeds,
+.bandcamp-embeds {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.spotify-item iframe,
+.bandcamp-item iframe {
+  border-radius: 2px;
+  display: block;
+}
+
+.spotify-label,
+.bandcamp-label {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.spotify-role,
+.bandcamp-role {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+}
+
+.music-block--full {
+  grid-column: 1 / -1;
+  margin-top: 16px;
+  padding-top: 32px;
+  border-top: 1px dashed var(--border-strong);
+}
+
+.music-block--cumbia h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cumbia-tagline {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.music-block-desc {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  max-width: 560px;
+  margin-bottom: 20px;
+}
+
+.cumbia-video {
+  max-width: 480px;
+}
+
+.video-caption {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.sessions-videos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.session-caption {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.session-caption .s-num {
+  font-family: var(--font-heading);
+  color: var(--accent-2);
+  margin-right: 6px;
+}
+
+.session-caption .s-date {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+/* ---------- Diseño ---------- */
+
+.gallery-group-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--accent-1);
+  margin: 0 0 20px;
+}
+
+.gallery-group-title:not(:first-child) {
+  margin-top: 48px;
+}
+
+.gallery-group-empty {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-faint);
+  text-align: center;
+  padding: 24px;
+  border: 1px dashed var(--border-strong);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  background: #0a0f0c;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+.gallery-item figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 16px;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85), transparent);
+  color: var(--text);
+}
+
+.gallery-item--missing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: repeating-linear-gradient(
+    -45deg, var(--border) 0 2px, transparent 2px 12px
+  );
+}
+
+.gallery-item--missing img {
+  display: none;
+}
+
+.gallery-item--missing figcaption {
+  position: static;
+  background: none;
+  text-align: center;
+  color: var(--text-faint);
+}
+
+/* ---------- Contacto ---------- */
+
+.contact-section {
+  text-align: center;
+}
+
+.contact-section .section-head {
+  margin: 0 auto 48px;
+}
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  color: var(--accent-1);
+  border: 1px solid var(--border-strong);
+  padding: 20px 36px;
+  border-radius: 2px;
+  margin-bottom: 40px;
+  transition: box-shadow 0.2s ease;
+}
+
+.contact-email:hover {
+  box-shadow: 0 0 0 1px var(--accent-1) inset;
+}
+
+.contact-socials {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.contact-socials a {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+}
+
+.contact-socials a:hover {
+  color: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+}
+
+.site-footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.site-footer p {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.back-to-top {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.back-to-top:hover {
+  color: var(--accent-1);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card:nth-child(even) .project-media {
+    order: 0;
+  }
+
+  .music-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sessions-videos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+}

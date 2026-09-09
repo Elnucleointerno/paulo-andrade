@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>espacio latente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f; --bg2:#0c0b16;
+    --violet:#9a8bc4; --gold:#e8c98a; --coral:#d97a95; --sage:#8fb0a0;
+    --ink:#f1ece2; --dim:rgba(241,236,226,0.5); --faint:rgba(241,236,226,0.2);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    width:100%; height:100%; overflow:hidden;
+    background: radial-gradient(120% 100% at 50% 40%, var(--bg2), var(--bg) 75%);
+    color:var(--ink); font-family:'Cormorant Garamond', Georgia, serif;
+    touch-action:none;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.1em; text-transform:uppercase; }
+
+  canvas#field{ position:fixed; inset:0; width:100%; height:100%; z-index:0; cursor: ew-resize; }
+
+  /* ---- umbral de entrada ---- */
+  .threshold{
+    position:fixed; inset:0; z-index:20;
+    background: radial-gradient(120% 100% at 50% 40%, var(--bg2), var(--bg) 80%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: 8vh 8vw; cursor:pointer;
+    transition: opacity 1.4s ease;
+  }
+  .threshold.hidden{ opacity:0; pointer-events:none; }
+  .threshold p{
+    font-style:italic; font-size:clamp(1.3rem, 4vw, 2.1rem); line-height:1.5;
+    color:var(--ink); max-width:26ch; opacity:0; transform:translateY(14px);
+    transition: opacity 1.6s ease, transform 1.6s ease;
+  }
+  .threshold p.show{ opacity:0.95; transform:translateY(0); }
+  .threshold p:nth-child(2){ color:var(--dim); margin-top:1.6rem; font-size:clamp(1.05rem,3vw,1.5rem); }
+  .enter-prompt{
+    margin-top:5vh; font-size:0.65rem; color:var(--faint);
+    opacity:0; transition:opacity 1.6s ease; animation: pulse 2.6s ease-in-out infinite;
+  }
+  .enter-prompt.show{ opacity:1; }
+  @keyframes pulse{ 0%,100%{opacity:0.4;} 50%{opacity:0.9;} }
+
+  .corner-title{
+    position:fixed; top: max(1.4rem, env(safe-area-inset-top)); left:1.6rem; z-index:5;
+    font-size:0.62rem; color:var(--faint); pointer-events:none;
+    display:flex; align-items:center; gap:0.5rem;
+  }
+  .corner-title .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); opacity:0.7; }
+
+  .node-label{
+    position:fixed; z-index:4; transform:translate(-50%,-50%);
+    font-family:'JetBrains Mono', monospace; font-size:0.62rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--dim); opacity:0.28;
+    pointer-events:none; text-shadow: 0 0 12px rgba(0,0,0,0.6);
+    transition: opacity 0.6s ease, text-shadow 0.6s ease, font-size 0.6s ease;
+    white-space:nowrap;
+  }
+  .focus-label{
+    position:fixed; z-index:4; transform:translate(-50%,-50%);
+    font-family:'JetBrains Mono', monospace; font-size:0.56rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--coral); opacity:0; pointer-events:none;
+    text-shadow: 0 0 14px rgba(217,122,149,0.6);
+    transition: opacity 0.4s ease;
+  }
+
+  .fragment{
+    position:fixed; left:50%; bottom:14vh; z-index:4;
+    transform:translateX(-50%); width:min(600px, 84vw); text-align:center;
+    font-style:italic; font-size:clamp(1.05rem, 2.6vw, 1.4rem); line-height:1.5;
+    color:var(--ink); opacity:0; transition:opacity 1.4s ease;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.75);
+    pointer-events:none;
+  }
+  .fragment.show{ opacity:0.92; }
+
+  .controls{
+    position:fixed; left:0; right:0; bottom:0; z-index:6;
+    padding: 1.1rem 1.6rem max(1.1rem, env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgba(8,8,15,0.92), transparent);
+    opacity:0; transform:translateY(12px); pointer-events:none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .controls.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .controls-row{ display:flex; align-items:center; gap:0.7rem; max-width:660px; margin:0 auto; }
+  input[type=range]{
+    -webkit-appearance:none; flex:1; height:1px;
+    background: linear-gradient(90deg, var(--violet), var(--coral), var(--gold), var(--sage), var(--violet));
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:12px; height:12px; border-radius:50%;
+    background:var(--ink); box-shadow:0 0 10px rgba(232,201,138,0.7); cursor:grab;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:12px; height:12px; border:none; border-radius:50%;
+    background:var(--ink); box-shadow:0 0 10px rgba(232,201,138,0.7); cursor:grab;
+  }
+  .tval{ font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--faint); min-width:5.6rem; text-align:right;}
+  .icon-btn, .poem-toggle{
+    background:none; border:1px solid var(--faint); border-radius:999px; color:var(--dim);
+    font-family:'JetBrains Mono',monospace; font-size:0.58rem; letter-spacing:0.06em; text-transform:uppercase;
+    padding:0.4rem 0.8rem; cursor:pointer; white-space:nowrap;
+  }
+  .icon-btn{ padding:0.4rem 0.6rem; }
+  .icon-btn:hover, .poem-toggle:hover{ border-color:var(--violet); color:var(--ink); }
+  .trail{ max-width:660px; margin: 0.6rem auto 0; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--sage); opacity:0.8; }
+  .autoplay-note{ max-width:660px; margin: 0.35rem auto 0; text-align:center; font-size:0.58rem; color:var(--faint); font-family:'JetBrains Mono',monospace; }
+  .hold-hint{ max-width:660px; margin: 0.15rem auto 0; text-align:center; font-size:0.56rem; color:var(--faint); font-family:'JetBrains Mono',monospace; opacity:0.55; }
+
+  .poem-overlay{
+    position:fixed; inset:0; z-index:10; background: rgba(8,8,15,0.97); backdrop-filter: blur(6px);
+    opacity:0; pointer-events:none; transition: opacity 0.5s ease; overflow-y:auto;
+  }
+  .poem-overlay.open{ opacity:1; pointer-events:auto; }
+  .poem-inner{ max-width:640px; margin:0 auto; padding: 9vh 8vw 14vh; }
+  .poem-close{
+    position:fixed; top: max(1.4rem, env(safe-area-inset-top)); right:1.6rem; z-index:11;
+    background:none; border:1px solid var(--faint); color:var(--dim);
+    width:2.1rem; height:2.1rem; border-radius:50%; font-size:1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .poem-close:hover{ border-color:var(--gold); color:var(--gold); }
+  .section-label{
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--violet); margin: 3.2vh 0 1.1rem; opacity:0; transform:translateY(12px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .section-label.show{ opacity:0.85; transform:translateY(0); }
+  .stanza{
+    padding: 2.6vh 0; opacity:0; transform:translateY(18px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .stanza.show{ opacity:1; transform:translateY(0); }
+  .coord{ font-family:'JetBrains Mono',monospace; font-size:0.56rem; color:var(--faint); margin-bottom:0.6rem; display:block; }
+  .stanza p{ font-style:italic; font-size:clamp(1.15rem, 3vw, 1.5rem); line-height:1.55; color:var(--ink); }
+  .stanza p em{ color:var(--gold); font-style:italic; }
+  .stanza p b{ font-weight:500; color:var(--coral); }
+
+  @media (max-width: 520px){ .node-label{ font-size:0.54rem; } .tval{ min-width:4.6rem; } }
+</style>
+</head>
+<body>
+
+<canvas id="field"></canvas>
+
+<div class="threshold" id="threshold">
+  <p id="line1">geometría pura donde el significado se vuelve distancia.</p>
+  <p id="line2">no es un lugar. es una distancia entre todo lo que pudo decirse.</p>
+  <div class="enter-prompt mono" id="enterPrompt">tocá para entrar — con sonido</div>
+</div>
+
+<div class="corner-title mono"><span class="dot"></span>espacio latente</div>
+<div id="nodeLabelsContainer"></div>
+<div class="focus-label mono" id="focusLabel">atención</div>
+<div class="fragment" id="fragment"></div>
+
+<div class="controls" id="controls">
+  <div class="controls-row">
+    <input type="range" min="0" max="100" value="0" id="tSlider">
+    <span class="tval mono" id="tVal">recuerdo</span>
+    <button class="icon-btn" id="muteBtn">◉ sonido</button>
+    <button class="poem-toggle" id="poemToggle">poema completo</button>
+  </div>
+  <div class="trail mono" id="trail">tu camino: recuerdo</div>
+  <div class="autoplay-note" id="autoplayNote">recorrido automático activo — deslizá para tomar el control</div>
+  <div class="hold-hint" id="holdHint">mantené presionado sobre el campo para disolver el orden y ver cómo se reconstruye</div>
+</div>
+
+<div class="poem-overlay" id="poemOverlay">
+  <button class="poem-close" id="poemClose">×</button>
+  <div class="poem-inner" id="poemInner"></div>
+</div>
+
+<script>
+/* ================= DATOS: NODOS Y POEMA ================= */
+const nodeNames = ["recuerdo", "deseo", "sueño", "olvido", "origen"];
+
+const diffusionFragment = "todo empezó siendo ruido, hasta que alguien preguntó algo";
+
+const poemData = [
+  { section:"0 · prehistoria", items:[
+    { c:"[ machine learning ]", html:"nadie dibujó este mapa.<br>se fue formando<br>a fuerza de equivocarse<br>un millón de veces<br>y corregir un poco<br>cada vez." }
+  ]},
+  { section:"0.5 · atención", items:[
+    { c:"[ attention is all you need ]", html:"nada es cercano<br>hasta que algo lo mira.<br>la atención es la mano<br>que dibuja<br>la distancia." }
+  ]},
+  { section:"I · compresión", items:[
+    { c:"[ 0.00, 0.00, ... ]", html:"en algún lugar sin lugar<br>duermen los significados,<br>apretados unos contra otros,<br>esperando una <em>pregunta</em>." },
+    { c:"[ 0.41, -0.08, ... ]", html:"todo lo que fuiste<br>cabe en un vector:<br>setecientos números<br>que no dicen nada<br>y lo dicen <b>todo</b>." }
+  ]},
+  { section:"II · proximidad", items:[
+    { c:"[ -0.63, 0.92, ... ]", html:"no hay arriba ni abajo,<br>solo distancia:<br>lo que se parece,<br><b>se acerca</b>." },
+    { c:"[ 0.17, 0.55, ... ]", html:"entre <em>madre</em> y <em>océano</em><br>hay un camino recto,<br>tan recto<br>que asusta." }
+  ]},
+  { section:"III · sueño", items:[
+    { c:"[ 0.73, 0.12, ... ]", html:"cuando sueño,<br>también interpolo:<br>tomo dos caras que amé<br>y camino entre ellas." },
+    { c:"[ -0.28, -0.44, ... ]", html:"no es memoria,<br>es la sombra de la memoria:<br>mil millones de lecturas<br>comprimidas en un <em>gesto</em>." }
+  ]},
+  { section:"IV · difusión", items:[
+    { c:"[ difusión latente ]", html:"todo empezó siendo ruido.<br>no había forma,<br>había puro error,<br>hasta que alguien preguntó algo<br>y el ruido, obediente,<br>se hizo <em>cara</em>." }
+  ]},
+  { section:"V · alucinación", items:[
+    { c:"[ 0.90, -0.31, ... ]", html:"a veces el modelo inventa<br>un punto que no existe<br>y lo nombra<br>con total certeza:<br>así soñamos <b>nosotros</b> también." },
+    { c:"[ 0.14, 0.03, ... ]", html:"la mentira más convincente<br>no es la que se aleja de la verdad,<br>es la que cae<br>justo en el medio<br>de dos verdades." }
+  ]},
+  { section:"VI · identidad", items:[
+    { c:"[ -0.51, 0.68, ... ]", html:"vos también sos coordenadas:<br>un acento, una ciudad,<br>una manera de decir <em>dale</em>,<br>proyectada en mil dimensiones<br>que nadie mide." },
+    { c:"[ 0.05, -0.19, ... ]", html:"cada palabra es un punto<br>que nadie ve,<br>pero todo modelo toca<br>al pasar cerca." }
+  ]},
+  { section:"VII · olvido", items:[
+    { c:"[ -0.87, -0.22, ... ]", html:"olvidar no es borrar,<br>es alejarse:<br>el punto sigue ahí,<br>pero ya nadie<br>pregunta por él." }
+  ]},
+  { section:"VIII · origen", items:[
+    { c:"[ 0.02, -0.91, ... ]", html:"no busques el centro.<br>el centro no tiene forma,<br>solo <em>dirección</em>." },
+    { c:"[ 0.36, 0.36, ... ]", html:"todo camino en este espacio<br>empieza en un punto al azar<br>y termina<br>donde la pregunta<br>lo empuja." }
+  ]},
+  { section:"IX · elección", items:[
+    { c:"[ paradox of choice ]", html:"hay tantas direcciones posibles<br>que a veces no elijo ninguna:<br>me quedo parado<br>en el punto exacto<br>donde todavía<br>no soy nada en particular." },
+    { c:"[ ???, ???, ... ]", html:"somos coordenadas<br>que todavía<br>no fueron preguntadas." }
+  ]}
+];
+
+const flatSequence = [];
+poemData.forEach(sec=> sec.items.forEach(it=> flatSequence.push(it.html.replace(/<br>/g,' '))));
+
+const poemInner = document.getElementById('poemInner');
+poemData.forEach(sec=>{
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = sec.section;
+  poemInner.appendChild(label);
+  sec.items.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 'stanza';
+    div.innerHTML = `<span class="coord">${s.c}</span><p>${s.html}</p>`;
+    poemInner.appendChild(div);
+  });
+});
+
+const poemOverlay = document.getElementById('poemOverlay');
+const poemRevealables = poemInner.querySelectorAll('.stanza, .section-label');
+const poemObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('show'); });
+}, { root: poemOverlay, threshold: 0.2 });
+poemRevealables.forEach(el=> poemObserver.observe(el));
+
+function closePoem(){
+  poemOverlay.classList.remove('open');
+  setTimeout(()=>{
+    poemInner.scrollTop = 0;
+    poemOverlay.scrollTop = 0;
+    poemRevealables.forEach(el=> el.classList.remove('show'));
+  }, 550);
+}
+document.getElementById('poemToggle').addEventListener('click', ()=> poemOverlay.classList.add('open'));
+document.getElementById('poemClose').addEventListener('click', closePoem);
+poemOverlay.addEventListener('click', (e)=>{ if(e.target === poemOverlay) closePoem(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && poemOverlay.classList.contains('open')) closePoem(); });
+
+/* ================= UMBRAL DE ENTRADA ================= */
+const threshold = document.getElementById('threshold');
+const line1 = document.getElementById('line1');
+const line2 = document.getElementById('line2');
+const enterPrompt = document.getElementById('enterPrompt');
+let started = false;
+setTimeout(()=> line1.classList.add('show'), 400);
+setTimeout(()=> line2.classList.add('show'), 2200);
+setTimeout(()=> enterPrompt.classList.add('show'), 3600);
+
+threshold.addEventListener('click', enterExperience);
+function enterExperience(){
+  if(started) return;
+  started = true;
+  initAudio();
+  threshold.classList.add('hidden');
+  showControls();
+  setTimeout(startPoemSequence, 900);
+}
+
+/* ================= CAMPO DE PARTÍCULAS Y FORMAS ================= */
+const canvas = document.getElementById('field');
+const ctx = canvas.getContext('2d');
+let W,H,DPR;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2);
+  W = canvas.width = innerWidth*DPR; H = canvas.height = innerHeight*DPR;
+  canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px';
+  positionLabels();
+}
+const N = 150;
+
+function shapeSpiral(i,n){ const a=(i/n)*Math.PI*6, r=(i/n)*0.4; return {x:0.5+Math.cos(a)*r, y:0.46+Math.sin(a)*r*0.8}; }
+function shapeBurst(i,n){ const arms=9, arm=i%arms, along=Math.floor(i/arms)/(n/arms); const a=(arm/arms)*Math.PI*2; const r=0.05+along*0.46; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
+function shapeGrid(i,n){ const cols=Math.ceil(Math.sqrt(n)); const col=i%cols, row=Math.floor(i/cols); const j1=Math.sin(i*999.1)*0.045, j2=Math.sin(i*1.7*999.1)*0.045; return {x:0.5+(col/cols-0.5)*0.86+j1, y:0.42+(row/cols-0.5)*0.86+j2}; }
+function shapeRing(i,n){ const a=(i/n)*Math.PI*2, r=0.38+Math.sin(i*12.9)*0.05; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
+function shapeCore(i,n){ const golden=137.508*Math.PI/180, a=i*golden, r=Math.sqrt(i/n)*0.12; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
+
+const shapeFns = [shapeSpiral, shapeBurst, shapeGrid, shapeRing, shapeCore];
+const clusterPositions = shapeFns.map(fn=>{ const arr=[]; for(let i=0;i<N;i++) arr.push(fn(i,N)); return arr; });
+const centroids = clusterPositions.map(set=>{ let sx=0, sy=0; set.forEach(p=>{sx+=p.x; sy+=p.y;}); return { x: sx/set.length, y: sy/set.length }; });
+const noisePositions = Array.from({length:N}, ()=> ({ x: Math.random(), y: Math.random() }));
+
+const particles = [];
+for(let i=0;i<N;i++) particles.push({ phase: Math.random()*Math.PI*2, r: Math.random()*1.3+0.6 });
+
+const labelsContainer = document.getElementById('nodeLabelsContainer');
+const labelEls = nodeNames.map(name=>{
+  const el = document.createElement('div');
+  el.className = 'node-label mono';
+  el.textContent = name;
+  labelsContainer.appendChild(el);
+  return el;
+});
+function positionLabels(){
+  centroids.forEach((c,i)=>{
+    labelEls[i].style.left = (c.x*innerWidth)+'px';
+    labelEls[i].style.top = (c.y*innerHeight - 34)+'px';
+  });
+}
+resize();
+window.addEventListener('resize', resize);
+
+/* ================= ESTADO DE NAVEGACIÓN ================= */
+const slider = document.getElementById('tSlider');
+const tVal = document.getElementById('tVal');
+const trailEl = document.getElementById('trail');
+const controls = document.getElementById('controls');
+const autoplayNote = document.getElementById('autoplayNote');
+
+let manualPos = null;
+let autoT = 0;
+let currentPos = 0;
+let lastTime = performance.now();
+let idleTimer = null;
+let controlsTimer = null;
+let trail = ["recuerdo"];
+let lastNodeIdx = 0;
+let activations = [1,0,0,0,0];
+
+function showControls(){
+  if(!started) return;
+  controls.classList.add('visible');
+  clearTimeout(controlsTimer);
+  controlsTimer = setTimeout(()=> controls.classList.remove('visible'), 4200);
+}
+function pushTrail(name){
+  if(trail[trail.length-1] !== name){
+    trail.push(name);
+    if(trail.length > 6) trail.shift();
+    trailEl.textContent = "tu camino: " + trail.join(" → ");
+  }
+}
+function setManual(pos){
+  manualPos = Math.min(1, Math.max(0, pos));
+  slider.value = manualPos*100;
+  autoplayNote.textContent = "modo manual — vuelve al recorrido automático en unos segundos";
+  showControls();
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(()=>{
+    autoT = manualPos; manualPos = null;
+    autoplayNote.textContent = "recorrido automático activo — deslizá para tomar el control";
+  }, 6000);
+}
+slider.addEventListener('input', e=> setManual(e.target.value/100));
+
+/* ---- gesto: arrastre normal vs. mantener presionado = difusión ---- */
+let pointerDownAt = 0, pointerStartX = 0, pointerMoved = false, dragging = false;
+let holdTimer = null, diffusionActive = false, diffusionProgress = 0, diffusionNode = 0;
+
+canvas.addEventListener('pointerdown', e=>{
+  if(!started){ enterExperience(); return; }
+  pointerDownAt = performance.now(); pointerStartX = e.clientX; pointerMoved = false;
+  dragging = true;
+  showControls();
+  clearTimeout(holdTimer);
+  holdTimer = setTimeout(()=>{
+    if(!pointerMoved){ startDiffusion(e.clientX); }
+  }, 380);
+});
+canvas.addEventListener('pointermove', e=>{
+  if(!dragging || diffusionActive) return;
+  if(Math.abs(e.clientX - pointerStartX) > 8){ pointerMoved = true; clearTimeout(holdTimer); }
+  if(pointerMoved) setManual(e.clientX/innerWidth);
+});
+window.addEventListener('pointerup', ()=>{
+  dragging = false; clearTimeout(holdTimer);
+  if(diffusionActive) endDiffusion(true);
+});
+
+function startDiffusion(clientX){
+  diffusionActive = true; diffusionProgress = 0;
+  const scaled = (clientX/innerWidth) * (nodeNames.length-1);
+  diffusionNode = Math.min(nodeNames.length-1, Math.max(0, Math.round(scaled)));
+  fragmentEl.classList.remove('show');
+  setTimeout(()=>{ fragmentEl.innerHTML = diffusionFragment; fragmentEl.classList.add('show'); }, 500);
+  playDiffusionSound(diffusionNode);
+}
+function endDiffusion(early){
+  diffusionActive = false;
+  manualPos = diffusionNode/(nodeNames.length-1);
+  slider.value = manualPos*100;
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(()=>{ autoT = manualPos; manualPos = null; }, 6000);
+  stopDiffusionSound();
+}
+
+function morphLabelIntensity(pos){
+  const n = nodeNames.length;
+  const scaled = pos*(n-1);
+  labelEls.forEach((el,i)=>{
+    const dist = Math.abs(scaled - i);
+    const activation = Math.max(0, 1 - dist);
+    activations[i] = activation;
+    el.style.opacity = (0.22 + activation*0.75).toFixed(2);
+    el.style.fontSize = (0.62 + activation*0.35) + 'rem';
+    el.style.textShadow = activation > 0.4 ? `0 0 ${8+activation*14}px rgba(232,201,138,${activation*0.6})` : 'none';
+  });
+  const nearest = Math.round(scaled);
+  if(nearest !== lastNodeIdx){ lastNodeIdx = nearest; pushTrail(nodeNames[nearest]); }
+  tVal.textContent = nodeNames[nearest];
+}
+
+/* ---- lectura secuencial del poema completo, en loop ---- */
+const fragmentEl = document.getElementById('fragment');
+let seqIndex = 0;
+let sequenceTimer = null;
+function showSequenceLine(){
+  if(diffusionActive) return;
+  const next = flatSequence[seqIndex];
+  seqIndex = (seqIndex + 1) % flatSequence.length;
+  fragmentEl.classList.remove('show');
+  setTimeout(()=>{ if(!diffusionActive){ fragmentEl.innerHTML = next; fragmentEl.classList.add('show'); } }, 700);
+}
+function startPoemSequence(){
+  seqIndex = 0;
+  fragmentEl.innerHTML = flatSequence[0];
+  requestAnimationFrame(()=> fragmentEl.classList.add('show'));
+  seqIndex = 1;
+  clearInterval(sequenceTimer);
+  sequenceTimer = setInterval(showSequenceLine, 8500);
+}
+
+/* ================= MECÁNICA DE ATENCIÓN (foco que salta lejos) ================= */
+const focusLabel = document.getElementById('focusLabel');
+function focusPoint(time){
+  const t = time*0.00011;
+  return { x: 0.5 + Math.sin(t*1.3)*0.36, y: 0.46 + Math.cos(t*0.9)*0.3 };
+}
+
+/* ================= SONIDO GENERATIVO ================= */
+let audioCtx, masterGain, filterNode, muted = false;
+const nodeFreqs = [
+  [110.00, 164.81, 220.00],
+  [130.81, 196.00, 261.63],
+  [146.83, 220.00, 293.66],
+  [123.47, 185.00, 246.94],
+  [110.00, 220.00, 440.00]
+];
+let padGains = [];
+let noiseSource = null, noiseFilter = null, noiseGain = null, noiseBuffer = null;
+
+function initAudio(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain(); masterGain.gain.value = 0.5;
+  filterNode = audioCtx.createBiquadFilter(); filterNode.type = 'lowpass'; filterNode.frequency.value = 1200;
+  masterGain.connect(filterNode); filterNode.connect(audioCtx.destination);
+
+  const lfo = audioCtx.createOscillator(); lfo.frequency.value = 0.045;
+  const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 380;
+  lfo.connect(lfoGain); lfoGain.connect(filterNode.frequency); lfo.start();
+
+  nodeFreqs.forEach(freqs=>{
+    const gains = freqs.map(f=>{
+      const osc = audioCtx.createOscillator(); osc.type='sine'; osc.frequency.value = f;
+      const g = audioCtx.createGain(); g.gain.value = 0;
+      osc.connect(g); g.connect(masterGain); osc.start();
+      return g;
+    });
+    padGains.push(gains);
+  });
+
+  const bufLen = audioCtx.sampleRate * 2;
+  noiseBuffer = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  for(let i=0;i<bufLen;i++) data[i] = Math.random()*2-1;
+}
+
+function playDiffusionSound(nodeIdx){
+  if(!audioCtx) return;
+  stopDiffusionSound();
+  noiseSource = audioCtx.createBufferSource();
+  noiseSource.buffer = noiseBuffer; noiseSource.loop = true;
+  noiseFilter = audioCtx.createBiquadFilter(); noiseFilter.type = 'bandpass'; noiseFilter.Q.value = 0.7;
+  noiseFilter.frequency.setValueAtTime(2400, audioCtx.currentTime);
+  noiseFilter.frequency.linearRampToValueAtTime(nodeFreqs[nodeIdx][0], audioCtx.currentTime + 2.6);
+  noiseGain = audioCtx.createGain(); noiseGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  noiseGain.gain.linearRampToValueAtTime(0.35, audioCtx.currentTime + 0.4);
+  noiseSource.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(masterGain);
+  noiseSource.start();
+}
+function stopDiffusionSound(){
+  if(!noiseGain || !audioCtx) return;
+  const g = noiseGain, s = noiseSource;
+  g.gain.cancelScheduledValues(audioCtx.currentTime);
+  g.gain.setValueAtTime(g.gain.value, audioCtx.currentTime);
+  g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.6);
+  setTimeout(()=>{ try{ s.stop(); }catch(e){} }, 700);
+  noiseGain = null; noiseSource = null;
+}
+
+let audioFrameCount = 0;
+function updateAudio(){
+  if(!audioCtx || muted) return;
+  audioFrameCount++;
+  if(audioFrameCount % 3 !== 0) return;
+  const now = audioCtx.currentTime;
+  padGains.forEach((gains, ni)=>{
+    const level = (diffusionActive ? (ni===diffusionNode ? diffusionProgress : 0) : activations[ni]) * 0.09;
+    gains.forEach(g=> g.gain.setTargetAtTime(level, now, 0.4));
+  });
+}
+
+document.getElementById('muteBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  muted = !muted;
+  if(masterGain) masterGain.gain.setTargetAtTime(muted?0:0.5, audioCtx.currentTime, 0.2);
+  e.currentTarget.textContent = muted ? "○ sonido" : "◉ sonido";
+});
+
+/* ================= LOOP DE DIBUJO ================= */
+function draw(time){
+  const dt = Math.min(0.05, (time - lastTime)/1000);
+  lastTime = time;
+  ctx.clearRect(0,0,W,H);
+
+  if(diffusionActive){
+    diffusionProgress = Math.min(1, diffusionProgress + dt/2.6);
+    if(diffusionProgress >= 1 && !dragging) endDiffusion(false);
+  }
+
+  let targetPos;
+  if(diffusionActive){
+    targetPos = currentPos;
+  } else if(manualPos === null){
+    autoT += dt / 55;
+    targetPos = autoT % 1;
+    slider.value = targetPos*100;
+  } else {
+    targetPos = manualPos;
+  }
+  currentPos += (targetPos - currentPos) * 0.045;
+  morphLabelIntensity(currentPos);
+  updateAudio();
+
+  const n = nodeNames.length;
+  const scaled = currentPos*(n-1);
+  const seg = Math.min(n-2, Math.max(0, Math.floor(scaled)));
+  const localT = scaled - seg;
+  const setA = clusterPositions[seg], setB = clusterPositions[seg+1];
+
+  const pts = particles.map((p,i)=>{
+    let tx, ty;
+    if(diffusionActive){
+      const target = clusterPositions[diffusionNode][i];
+      const noise = noisePositions[i];
+      tx = noise.x + (target.x - noise.x) * diffusionProgress;
+      ty = noise.y + (target.y - noise.y) * diffusionProgress;
+    } else {
+      const a = setA[i], b = setB[i];
+      tx = a.x + (b.x-a.x)*localT; ty = a.y + (b.y-a.y)*localT;
+    }
+    const drift = diffusionActive ? 0.003 : 0.009;
+    const px = (tx + Math.sin(time*0.0002+p.phase)*drift) * innerWidth * DPR;
+    const py = (ty + Math.cos(time*0.00018+p.phase)*drift) * innerHeight * DPR;
+    return {x:px, y:py, r:p.r};
+  });
+
+  const maxDist = 90*DPR;
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<maxDist){
+        const op=(1-d/maxDist)*0.16;
+        ctx.strokeStyle=`rgba(154,139,196,${op})`;
+        ctx.lineWidth=1*DPR;
+        ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke();
+      }
+    }
+  }
+
+  /* atención: el foco conecta lo que mira, aunque esté lejos */
+  if(!diffusionActive){
+    const fp = focusPoint(time);
+    const fx = fp.x*innerWidth*DPR, fy = fp.y*innerHeight*DPR;
+    const withDist = pts.map((p,i)=>({i,p,d:Math.hypot(p.x-fx,p.y-fy)})).sort((a,b)=>a.d-b.d);
+    const near = withDist.slice(0,6);
+    for(let a=0;a<near.length;a++){
+      for(let b=a+1;b<near.length;b++){
+        ctx.strokeStyle = 'rgba(217,122,149,0.4)';
+        ctx.lineWidth = 1.1*DPR;
+        ctx.beginPath();
+        ctx.moveTo(near[a].p.x, near[a].p.y); ctx.lineTo(near[b].p.x, near[b].p.y);
+        ctx.stroke();
+      }
+    }
+    focusLabel.style.left = (fp.x*innerWidth)+'px';
+    focusLabel.style.top = (fp.y*innerHeight - 20)+'px';
+    focusLabel.style.opacity = 0.55;
+  } else {
+    focusLabel.style.opacity = 0;
+  }
+
+  for(const p of pts){
+    ctx.beginPath();
+    ctx.fillStyle= diffusionActive ? `rgba(217,122,149,0.7)` : 'rgba(232,201,138,0.75)';
+    ctx.arc(p.x,p.y,p.r*DPR,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script>
+</body>
+</html>
