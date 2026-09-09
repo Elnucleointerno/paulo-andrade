@@ -575,12 +575,15 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-heading);
-  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  font-size: clamp(1.1rem, 3.5vw, 2rem);
   color: var(--accent-1);
   border: 1px solid var(--border-strong);
   padding: 20px 36px;
   border-radius: 2px;
   margin-bottom: 40px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
   transition: box-shadow 0.2s ease;
 }
 
@@ -788,5 +791,14 @@
   .gallery {
     grid-template-columns: 1fr 1fr;
     gap: 14px;
+  }
+
+  .contact-email {
+    padding: 16px 20px;
+  }
+
+  .espacio-latente-embed {
+    aspect-ratio: auto;
+    height: 560px;
   }
 }
