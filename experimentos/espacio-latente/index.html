@@ -17,7 +17,8 @@
     width:100%; height:100%; overflow:hidden;
     background: radial-gradient(120% 100% at 50% 40%, var(--bg2), var(--bg) 75%);
     color:var(--ink); font-family:'Cormorant Garamond', Georgia, serif;
-    touch-action:none;
+    touch-action:none; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;
+    -webkit-tap-highlight-color:transparent;
   }
   .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.1em; text-transform:uppercase; }
 
@@ -109,13 +110,15 @@
   }
   .icon-btn{ padding:0.4rem 0.6rem; }
   .icon-btn:hover, .poem-toggle:hover{ border-color:var(--violet); color:var(--ink); }
-  .trail{ max-width:660px; margin: 0.6rem auto 0; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--sage); opacity:0.8; }
+  .icon-btn.active{ border-color:var(--coral); color:var(--coral); background:rgba(217,122,149,0.12); }
+  .trail{ max-width:660px; margin: 0.6rem auto 0; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--sage); opacity:0; transition:opacity 0.5s ease; }
   .autoplay-note{ max-width:660px; margin: 0.35rem auto 0; text-align:center; font-size:0.58rem; color:var(--faint); font-family:'JetBrains Mono',monospace; }
   .hold-hint{ max-width:660px; margin: 0.15rem auto 0; text-align:center; font-size:0.56rem; color:var(--faint); font-family:'JetBrains Mono',monospace; opacity:0.55; }
 
   .poem-overlay{
     position:fixed; inset:0; z-index:10; background: rgba(8,8,15,0.97); backdrop-filter: blur(6px);
     opacity:0; pointer-events:none; transition: opacity 0.5s ease; overflow-y:auto;
+    touch-action:pan-y; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
   }
   .poem-overlay.open{ opacity:1; pointer-events:auto; }
   .poem-inner{ max-width:640px; margin:0 auto; padding: 9vh 8vw 14vh; }
@@ -143,6 +146,26 @@
   .stanza p b{ font-weight:500; color:var(--coral); }
 
   @media (max-width: 520px){ .node-label{ font-size:0.54rem; } .tval{ min-width:4.6rem; } }
+
+  @media (max-width: 480px){
+    .controls-row{ flex-wrap:wrap; row-gap:0.6rem; }
+    .controls-row input[type=range]{ flex:1 1 100%; order:1; }
+    .controls-row .tval{ order:2; min-width:auto; flex:1; text-align:left; }
+    .controls-row .icon-btn{ order:3; }
+    .controls-row .poem-toggle{ order:4; }
+    .hold-hint{ display:none; }
+    /* en reposo (controles ocultos) el poema baja para no dejar hueco antes
+       de los controles; mientras los controles están visibles, sube para no taparlos */
+    .fragment{ bottom:10vh; transition: opacity 1.4s ease, bottom 0.4s ease; }
+    .fragment.controls-up{ bottom:17vh; }
+    .coord{ font-size:0.68rem; color:var(--dim); }
+    .section-label{ font-size:0.72rem; }
+  }
+  @media (max-height: 480px){
+    .fragment{ bottom:14vh; font-size:clamp(0.95rem, 3vw, 1.2rem); }
+    .controls{ padding-top:0.6rem; }
+    .hold-hint{ display:none; }
+  }
 </style>
 </head>
 <body>
@@ -165,6 +188,8 @@
     <input type="range" min="0" max="100" value="0" id="tSlider">
     <span class="tval mono" id="tVal">recuerdo</span>
     <button class="icon-btn" id="muteBtn">◉ sonido</button>
+    <button class="icon-btn" id="mode3dBtn">2d</button>
+    <button class="icon-btn" id="fullscreenBtn">⛶</button>
     <button class="poem-toggle" id="poemToggle">poema completo</button>
   </div>
   <div class="trail mono" id="trail">tu camino: recuerdo</div>
@@ -180,8 +205,6 @@
 <script>
 /* ================= DATOS: NODOS Y POEMA ================= */
 const nodeNames = ["recuerdo", "deseo", "sueño", "olvido", "origen"];
-
-const diffusionFragment = "todo empezó siendo ruido, hasta que alguien preguntó algo";
 
 const poemData = [
   { section:"0 · prehistoria", items:[
@@ -291,20 +314,40 @@ function resize(){
   DPR = Math.min(window.devicePixelRatio||1, 2);
   W = canvas.width = innerWidth*DPR; H = canvas.height = innerHeight*DPR;
   canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px';
+  computeFieldPositions();
   positionLabels();
 }
 const N = 150;
 
-function shapeSpiral(i,n){ const a=(i/n)*Math.PI*6, r=(i/n)*0.4; return {x:0.5+Math.cos(a)*r, y:0.46+Math.sin(a)*r*0.8}; }
-function shapeBurst(i,n){ const arms=9, arm=i%arms, along=Math.floor(i/arms)/(n/arms); const a=(arm/arms)*Math.PI*2; const r=0.05+along*0.46; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
-function shapeGrid(i,n){ const cols=Math.ceil(Math.sqrt(n)); const col=i%cols, row=Math.floor(i/cols); const j1=Math.sin(i*999.1)*0.045, j2=Math.sin(i*1.7*999.1)*0.045; return {x:0.5+(col/cols-0.5)*0.86+j1, y:0.42+(row/cols-0.5)*0.86+j2}; }
-function shapeRing(i,n){ const a=(i/n)*Math.PI*2, r=0.38+Math.sin(i*12.9)*0.05; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
-function shapeCore(i,n){ const golden=137.508*Math.PI/180, a=i*golden, r=Math.sqrt(i/n)*0.12; return {x:0.5+Math.cos(a)*r, y:0.44+Math.sin(a)*r*0.85}; }
+/* formas en espacio isotrópico (origen 0,0, mismo radio en x e y) —
+   así se ven proporcionadas sea la pantalla apaisada o vertical */
+function shapeSpiral(i,n){ const a=(i/n)*Math.PI*6, r=(i/n)*0.4; return {x:Math.cos(a)*r, y:Math.sin(a)*r, z:((i/n)-0.5)*0.35}; }
+function shapeBurst(i,n){ const arms=9, arm=i%arms, along=Math.floor(i/arms)/(n/arms); const a=(arm/arms)*Math.PI*2; const r=0.05+along*0.46; return {x:Math.cos(a)*r, y:Math.sin(a)*r, z:Math.sin(along*Math.PI)*0.3}; }
+function shapeGrid(i,n){ const cols=Math.ceil(Math.sqrt(n)); const col=i%cols, row=Math.floor(i/cols); const j1=Math.sin(i*999.1)*0.045, j2=Math.sin(i*1.7*999.1)*0.045; return {x:(col/cols-0.5)*0.86+j1, y:(row/cols-0.5)*0.86+j2, z:Math.cos(i*0.5)*0.25}; }
+function shapeRing(i,n){ const a=(i/n)*Math.PI*2, r=0.38+Math.sin(i*12.9)*0.05; return {x:Math.cos(a)*r, y:Math.sin(a)*r, z:Math.sin(a*3)*0.2}; }
+function shapeCore(i,n){ const golden=137.508*Math.PI/180, a=i*golden, r=Math.sqrt(i/n)*0.12; return {x:Math.cos(a)*r, y:Math.sin(a)*r, z:(Math.random()-0.5)*0.1}; }
 
 const shapeFns = [shapeSpiral, shapeBurst, shapeGrid, shapeRing, shapeCore];
-const clusterPositions = shapeFns.map(fn=>{ const arr=[]; for(let i=0;i<N;i++) arr.push(fn(i,N)); return arr; });
-const centroids = clusterPositions.map(set=>{ let sx=0, sy=0; set.forEach(p=>{sx+=p.x; sy+=p.y;}); return { x: sx/set.length, y: sy/set.length }; });
-const noisePositions = Array.from({length:N}, ()=> ({ x: Math.random(), y: Math.random() }));
+const shapeRaw = shapeFns.map(fn=>{ const arr=[]; for(let i=0;i<N;i++) arr.push(fn(i,N)); return arr; });
+let clusterPositions = [];
+let centroids = [];
+let fieldScaleX = 1, fieldScaleY = 1;
+let fieldReachPx = 800; // tamaño real (en px CSS) que ocupa el campo — para que el radio de conexión de las líneas escale con él, no quede fijo
+function computeFieldPositions(){
+  /* mismo largo en x e y = círculo perfecto, pero en una pantalla muy angosta
+     eso encoge todo el campo al tamaño del lado corto y sobra espacio en el otro.
+     por eso se permite estirar el lado largo hasta un 40% antes de "cortar" la
+     corrección — una elipse leve en vez de un círculo diminuto o una distorsión total. */
+  const minDim = Math.min(innerWidth, innerHeight);
+  const CAP = 1.4;
+  const reachX = minDim * Math.min(innerWidth/minDim, CAP);
+  const reachY = minDim * Math.min(innerHeight/minDim, CAP);
+  fieldScaleX = reachX/innerWidth; fieldScaleY = reachY/innerHeight;
+  fieldReachPx = Math.sqrt(reachX*reachY);
+  clusterPositions = shapeRaw.map(set=> set.map(p=> ({ x: 0.5 + p.x*fieldScaleX, y: 0.46 + p.y*fieldScaleY, z: p.z || 0 })));
+  centroids = clusterPositions.map(set=>{ let sx=0, sy=0; set.forEach(p=>{sx+=p.x; sy+=p.y;}); return { x: sx/set.length, y: sy/set.length }; });
+}
+const noisePositions = Array.from({length:N}, ()=> ({ x: Math.random(), y: Math.random(), z: Math.random()-0.5 }));
 
 const particles = [];
 for(let i=0;i<N;i++) particles.push({ phase: Math.random()*Math.PI*2, r: Math.random()*1.3+0.6 });
@@ -346,14 +389,20 @@ let activations = [1,0,0,0,0];
 function showControls(){
   if(!started) return;
   controls.classList.add('visible');
+  fragmentEl.classList.add('controls-up');
   clearTimeout(controlsTimer);
-  controlsTimer = setTimeout(()=> controls.classList.remove('visible'), 4200);
+  controlsTimer = setTimeout(()=>{
+    controls.classList.remove('visible');
+    fragmentEl.classList.remove('controls-up');
+  }, 4200);
 }
 function pushTrail(name){
   if(trail[trail.length-1] !== name){
     trail.push(name);
     if(trail.length > 6) trail.shift();
-    trailEl.textContent = "tu camino: " + trail.join(" → ");
+    if(manualPos !== null) trailEl.textContent = "tu camino: " + trail.join(" → ");
+    const currentIdx = nodeNames.indexOf(name);
+    if(currentIdx !== -1) playHarmonicResonance(nodeFreqs[currentIdx][1]);
   }
 }
 function setManual(pos){
@@ -372,8 +421,11 @@ slider.addEventListener('input', e=> setManual(e.target.value/100));
 /* ---- gesto: arrastre normal vs. mantener presionado = difusión ---- */
 let pointerDownAt = 0, pointerStartX = 0, pointerMoved = false, dragging = false;
 let holdTimer = null, diffusionActive = false, diffusionProgress = 0, diffusionNode = 0;
+const DIFFUSION_STEPS = 16;
+let diffusionStep = 0, diffusionStepTimer = 0;
 
 canvas.addEventListener('pointerdown', e=>{
+  e.preventDefault();
   if(!started){ enterExperience(); return; }
   pointerDownAt = performance.now(); pointerStartX = e.clientX; pointerMoved = false;
   dragging = true;
@@ -394,11 +446,9 @@ window.addEventListener('pointerup', ()=>{
 });
 
 function startDiffusion(clientX){
-  diffusionActive = true; diffusionProgress = 0;
+  diffusionActive = true; diffusionProgress = 0; diffusionStep = 0; diffusionStepTimer = 0;
   const scaled = (clientX/innerWidth) * (nodeNames.length-1);
   diffusionNode = Math.min(nodeNames.length-1, Math.max(0, Math.round(scaled)));
-  fragmentEl.classList.remove('show');
-  setTimeout(()=>{ fragmentEl.innerHTML = diffusionFragment; fragmentEl.classList.add('show'); }, 500);
   playDiffusionSound(diffusionNode);
 }
 function endDiffusion(early){
@@ -417,7 +467,7 @@ function morphLabelIntensity(pos){
     const dist = Math.abs(scaled - i);
     const activation = Math.max(0, 1 - dist);
     activations[i] = activation;
-    el.style.opacity = (0.22 + activation*0.75).toFixed(2);
+    el.style.opacity = is3D ? 0 : (activation*0.9).toFixed(2);
     el.style.fontSize = (0.62 + activation*0.35) + 'rem';
     el.style.textShadow = activation > 0.4 ? `0 0 ${8+activation*14}px rgba(232,201,138,${activation*0.6})` : 'none';
   });
@@ -431,11 +481,10 @@ const fragmentEl = document.getElementById('fragment');
 let seqIndex = 0;
 let sequenceTimer = null;
 function showSequenceLine(){
-  if(diffusionActive) return;
   const next = flatSequence[seqIndex];
   seqIndex = (seqIndex + 1) % flatSequence.length;
   fragmentEl.classList.remove('show');
-  setTimeout(()=>{ if(!diffusionActive){ fragmentEl.innerHTML = next; fragmentEl.classList.add('show'); } }, 700);
+  setTimeout(()=>{ fragmentEl.innerHTML = next; fragmentEl.classList.add('show'); }, 700);
 }
 function startPoemSequence(){
   seqIndex = 0;
@@ -448,13 +497,82 @@ function startPoemSequence(){
 
 /* ================= MECÁNICA DE ATENCIÓN (foco que salta lejos) ================= */
 const focusLabel = document.getElementById('focusLabel');
-function focusPoint(time){
-  const t = time*0.00011;
-  return { x: 0.5 + Math.sin(t*1.3)*0.36, y: 0.46 + Math.cos(t*0.9)*0.3 };
+/* multi-head: 3 focos autónomos en paralelo, cada uno con su propia fase/velocidad/color —
+   igual que "attention is all you need" describe varias cabezas mirando cosas distintas a la vez.
+   el violeta comparte tono con la malla de fondo, así que lleva más opacidad/grosor para no perderse en ella. */
+const attentionHeads = [
+  { freq:0.00011, phase:0,   sinMul:1.3,  cosMul:0.9, color:'217,122,149', lineAlpha:0.40, lineWidth:1.1 }, // coral — foco original
+  { freq:0.00014, phase:2.4, sinMul:1.7,  cosMul:1.1, color:'154,139,196', lineAlpha:0.55, lineWidth:1.4 }, // violeta
+  { freq:0.00008, phase:4.8, sinMul:0.95, cosMul:1.6, color:'143,176,160', lineAlpha:0.45, lineWidth:1.1 }  // sage
+];
+function focusPoint(time, head){
+  const t = time*head.freq + head.phase;
+  return { x: 0.5 + Math.sin(t*head.sinMul)*0.36*fieldScaleX, y: 0.46 + Math.cos(t*head.cosMul)*0.3*fieldScaleY };
 }
 
 /* ================= SONIDO GENERATIVO ================= */
-let audioCtx, masterGain, filterNode, muted = false;
+let audioCtx, masterGain, filterNode, delayOutGain, muted = false, awayMuted = false;
+const FADE_S = 0.45; // duración del fundido — el delay de audioCtx.suspend() en updateAwayState() debe ser igual o mayor
+const MASTER_LEVEL = 0.8; // volumen general (lineal 0-1, no dB) — 0.5 sonaba muy bajo incluso a volumen máximo del sistema
+function applyGain(){
+  if(!audioCtx || !masterGain) return;
+  const target = (muted || awayMuted) ? 0 : MASTER_LEVEL;
+  const now = audioCtx.currentTime;
+  [masterGain, delayOutGain].forEach(g=>{
+    if(!g) return;
+    g.gain.cancelScheduledValues(now);
+    g.gain.setValueAtTime(g.gain.value, now);
+    g.gain.linearRampToValueAtTime(target, now + FADE_S);
+  });
+}
+/* al cerrar la pestaña/ventana el navegador no garantiza tiempo de ejecución —
+   el fundido normal de FADE_S no llega a terminar. esto dispara uno mucho más
+   corto apenas empieza el cierre; no es 100% garantizado, pero es lo máximo
+   que se puede pedir sin control sobre cuándo el navegador mata la página. */
+function fastMuteOnClose(){
+  if(!audioCtx || !masterGain) return;
+  const now = audioCtx.currentTime;
+  [masterGain, delayOutGain].forEach(g=>{
+    if(!g) return;
+    g.gain.cancelScheduledValues(now);
+    g.gain.setValueAtTime(g.gain.value, now);
+    g.gain.linearRampToValueAtTime(0, now + 0.03);
+  });
+}
+window.addEventListener('pagehide', fastMuteOnClose);
+window.addEventListener('beforeunload', fastMuteOnClose);
+/* ¿el propio iframe está fuera de la parte visible de la página que lo contiene?
+   solo se puede saber si el embed es del mismo origen que el sitio que lo aloja;
+   si no, esto no hace nada y el sonido solo se corta al cambiar de pestaña/app */
+function isEmbedVisible(){
+  if(!window.frameElement) return true;
+  try{
+    const rect = window.frameElement.getBoundingClientRect();
+    const parentH = window.parent.innerHeight || innerHeight;
+    return rect.bottom > 0 && rect.top < parentH;
+  }catch(e){ return true; }
+}
+let suspendTimer = null;
+function updateAwayState(){
+  awayMuted = document.hidden || !isEmbedVisible();
+  applyGain();
+  if(!audioCtx) return;
+  clearTimeout(suspendTimer);
+  if(document.hidden){
+    /* esperar a que termine el fundido de applyGain() antes de congelar el audio —
+       si se suspende en el mismo instante, el corte se escucha abrupto en vez de suave */
+    suspendTimer = setTimeout(()=>{ if(document.hidden) audioCtx.suspend(); }, FADE_S*1000 + 60);
+  } else if(audioCtx.state === 'suspended'){
+    audioCtx.resume();
+  }
+}
+document.addEventListener('visibilitychange', updateAwayState);
+try{
+  if(window.frameElement){
+    window.parent.addEventListener('scroll', updateAwayState, {passive:true});
+    window.parent.addEventListener('resize', updateAwayState, {passive:true});
+  }
+}catch(e){}
 const nodeFreqs = [
   [110.00, 164.81, 220.00],
   [130.81, 196.00, 261.63],
@@ -468,9 +586,33 @@ let noiseSource = null, noiseFilter = null, noiseGain = null, noiseBuffer = null
 function initAudio(){
   if(audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain(); masterGain.gain.value = 0.5;
+  masterGain = audioCtx.createGain(); masterGain.gain.value = MASTER_LEVEL;
   filterNode = audioCtx.createBiquadFilter(); filterNode.type = 'lowpass'; filterNode.frequency.value = 1200;
-  masterGain.connect(filterNode); filterNode.connect(audioCtx.destination);
+
+  /* --- líneas de retardo espacial (cross-feedback delay) --- */
+  const delayL = audioCtx.createDelay(); delayL.delayTime.value = 0.38;
+  const delayR = audioCtx.createDelay(); delayR.delayTime.value = 0.52;
+  const feedback = audioCtx.createGain(); feedback.gain.value = 0.28;
+  delayL.connect(delayR);
+  delayR.connect(feedback);
+  feedback.connect(delayL);
+
+  /* paneo real: cada línea sale por un lado distinto en vez de sonar igual en los dos oídos */
+  const panL = audioCtx.createStereoPanner(); panL.pan.value = -1;
+  const panR = audioCtx.createStereoPanner(); panR.pan.value = 1;
+  /* ganancia propia de la cola de eco — sin esto, el fundido de masterGain no la alcanza:
+     el delay sigue reproduciendo lo que ya tenía "en el caño" (hasta ~0.9s con feedback)
+     aunque el resto ya esté en silencio, y eso es lo que se escucha como corte brusco */
+  delayOutGain = audioCtx.createGain(); delayOutGain.gain.value = MASTER_LEVEL;
+  delayL.connect(panL); panL.connect(delayOutGain);
+  delayR.connect(panR); panR.connect(delayOutGain);
+  delayOutGain.connect(audioCtx.destination);
+
+  masterGain.connect(filterNode);
+  filterNode.connect(audioCtx.destination);
+  filterNode.connect(delayL);
+
+  updateAwayState();
 
   const lfo = audioCtx.createOscillator(); lfo.frequency.value = 0.045;
   const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 380;
@@ -515,9 +657,26 @@ function stopDiffusionSound(){
   noiseGain = null; noiseSource = null;
 }
 
+/* campana armónica breve — se dispara al cambiar de nodo, decae sola en ~4s */
+function playHarmonicResonance(freqHz = 220){
+  if(!audioCtx || muted || awayMuted) return;
+  try{
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freqHz, audioCtx.currentTime);
+    g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.15);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.8);
+    osc.connect(g); g.connect(masterGain);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 4.0);
+  }catch(e){}
+}
+
 let audioFrameCount = 0;
 function updateAudio(){
-  if(!audioCtx || muted) return;
+  if(!audioCtx || muted || awayMuted) return;
   audioFrameCount++;
   if(audioFrameCount % 3 !== 0) return;
   const now = audioCtx.currentTime;
@@ -530,8 +689,44 @@ function updateAudio(){
 document.getElementById('muteBtn').addEventListener('click', (e)=>{
   e.stopPropagation();
   muted = !muted;
-  if(masterGain) masterGain.gain.setTargetAtTime(muted?0:0.5, audioCtx.currentTime, 0.2);
+  applyGain();
   e.currentTarget.textContent = muted ? "○ sonido" : "◉ sonido";
+});
+
+/* ================= PANTALLA COMPLETA ================= */
+/* estándar Fullscreen API — funciona en escritorio y Android. En iPhone,
+   Safari no deja pedir pantalla completa para una página común (solo para
+   <video> o para una app agregada a la pantalla de inicio), así que ahí el
+   botón queda sin efecto visible; no hay forma de sortear eso desde JS. */
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+function isFullscreen(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+function updateFullscreenBtn(){
+  fullscreenBtn.textContent = isFullscreen() ? "✕" : "⛶";
+  fullscreenBtn.classList.toggle('active', isFullscreen());
+}
+fullscreenBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const el = document.documentElement;
+  if(!isFullscreen()){
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if(req) req.call(el)?.catch?.(()=>{});
+  } else {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if(exit) exit.call(document);
+  }
+});
+document.addEventListener('fullscreenchange', updateFullscreenBtn);
+document.addEventListener('webkitfullscreenchange', updateFullscreenBtn);
+
+/* ================= MODO 3D (órbita) ================= */
+let is3D = false;
+let orbitAngle = 0;
+const mode3dBtn = document.getElementById('mode3dBtn');
+mode3dBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  is3D = !is3D;
+  mode3dBtn.textContent = is3D ? "3d on" : "2d";
+  mode3dBtn.classList.toggle('active', is3D);
 });
 
 /* ================= LOOP DE DIBUJO ================= */
@@ -541,8 +736,16 @@ function draw(time){
   ctx.clearRect(0,0,W,H);
 
   if(diffusionActive){
-    diffusionProgress = Math.min(1, diffusionProgress + dt/2.6);
-    if(diffusionProgress >= 1 && !dragging) endDiffusion(false);
+    /* difusión en pasos discretos, no interpolación continua — estructura primero, refinamiento después */
+    const stepDuration = 2.6/DIFFUSION_STEPS;
+    diffusionStepTimer += dt;
+    while(diffusionStepTimer >= stepDuration && diffusionStep < DIFFUSION_STEPS){
+      diffusionStepTimer -= stepDuration;
+      diffusionStep++;
+    }
+    const stepT = diffusionStep/DIFFUSION_STEPS;
+    diffusionProgress = 1 - Math.pow(1-stepT, 3); // cubic-out
+    if(diffusionStep >= DIFFUSION_STEPS && !dragging) endDiffusion(false);
   }
 
   let targetPos;
@@ -557,6 +760,7 @@ function draw(time){
   }
   currentPos += (targetPos - currentPos) * 0.045;
   morphLabelIntensity(currentPos);
+  trailEl.style.opacity = manualPos !== null ? 0.8 : 0;
   updateAudio();
 
   const n = nodeNames.length;
@@ -565,30 +769,50 @@ function draw(time){
   const localT = scaled - seg;
   const setA = clusterPositions[seg], setB = clusterPositions[seg+1];
 
+  if(is3D){ orbitAngle += dt * 0.35; }
+
   const pts = particles.map((p,i)=>{
-    let tx, ty;
+    let tx, ty, tz;
     if(diffusionActive){
       const target = clusterPositions[diffusionNode][i];
       const noise = noisePositions[i];
       tx = noise.x + (target.x - noise.x) * diffusionProgress;
       ty = noise.y + (target.y - noise.y) * diffusionProgress;
+      tz = (noise.z||0) + ((target.z||0) - (noise.z||0)) * diffusionProgress;
     } else {
       const a = setA[i], b = setB[i];
-      tx = a.x + (b.x-a.x)*localT; ty = a.y + (b.y-a.y)*localT;
+      tx = a.x + (b.x-a.x)*localT; ty = a.y + (b.y-a.y)*localT; tz = a.z + (b.z-a.z)*localT;
     }
     const drift = diffusionActive ? 0.003 : 0.009;
-    const px = (tx + Math.sin(time*0.0002+p.phase)*drift) * innerWidth * DPR;
-    const py = (ty + Math.cos(time*0.00018+p.phase)*drift) * innerHeight * DPR;
-    return {x:px, y:py, r:p.r};
+    let px = tx + Math.sin(time*0.0002+p.phase)*drift;
+    let py = ty + Math.cos(time*0.00018+p.phase)*drift;
+    let pz = tz;
+
+    if(is3D){
+      /* órbita: rotación en el plano X/Z alrededor del centro del campo, más una leve inclinación fija en Y */
+      const cx = 0.5, cy = 0.46;
+      const rx = px - cx;
+      const rz = pz * 0.8;
+      const cosA = Math.cos(orbitAngle), sinA = Math.sin(orbitAngle);
+      px = cx + (rx*cosA - rz*sinA);
+      pz = rx*sinA + rz*cosA;
+      py = cy + (py-cy)*Math.cos(0.3) - pz*Math.sin(0.3);
+    }
+
+    const depthScale = is3D ? Math.max(0.4, 1 + pz*0.45) : 1;
+    /* al empezar la difusión las partículas son grandes y difusas (ruido puro);
+       al terminar, chicas y definidas (la forma ya resuelta) */
+    const diffusionSizeMul = diffusionActive ? (1.9 - 0.9*diffusionProgress) : 1;
+    return { x: px*innerWidth*DPR, y: py*innerHeight*DPR, r: p.r*depthScale*diffusionSizeMul };
   });
 
-  const maxDist = 90*DPR;
+  const maxDist = Math.max(70, fieldReachPx*0.24)*DPR;
   for(let i=0;i<pts.length;i++){
     for(let j=i+1;j<pts.length;j++){
       const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
       const d=Math.sqrt(dx*dx+dy*dy);
       if(d<maxDist){
-        const op=(1-d/maxDist)*0.16;
+        const op=(1-d/maxDist)*0.18;
         ctx.strokeStyle=`rgba(154,139,196,${op})`;
         ctx.lineWidth=1*DPR;
         ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke();
@@ -596,31 +820,36 @@ function draw(time){
     }
   }
 
-  /* atención: el foco conecta lo que mira, aunque esté lejos */
+  /* atención: cada head conecta lo que mira, aunque esté lejos — no lo más cercano entre sí */
   if(!diffusionActive){
-    const fp = focusPoint(time);
-    const fx = fp.x*innerWidth*DPR, fy = fp.y*innerHeight*DPR;
-    const withDist = pts.map((p,i)=>({i,p,d:Math.hypot(p.x-fx,p.y-fy)})).sort((a,b)=>a.d-b.d);
-    const near = withDist.slice(0,6);
-    for(let a=0;a<near.length;a++){
-      for(let b=a+1;b<near.length;b++){
-        ctx.strokeStyle = 'rgba(217,122,149,0.4)';
-        ctx.lineWidth = 1.1*DPR;
-        ctx.beginPath();
-        ctx.moveTo(near[a].p.x, near[a].p.y); ctx.lineTo(near[b].p.x, near[b].p.y);
-        ctx.stroke();
+    attentionHeads.forEach((head, hi)=>{
+      const fp = focusPoint(time, head);
+      const fx = fp.x*innerWidth*DPR, fy = fp.y*innerHeight*DPR;
+      const withDist = pts.map((p,i)=>({i,p,d:Math.hypot(p.x-fx,p.y-fy)})).sort((a,b)=>a.d-b.d);
+      const near = withDist.slice(0,5);
+      for(let a=0;a<near.length;a++){
+        for(let b=a+1;b<near.length;b++){
+          ctx.strokeStyle = `rgba(${head.color},${head.lineAlpha})`;
+          ctx.lineWidth = head.lineWidth*DPR;
+          ctx.beginPath();
+          ctx.moveTo(near[a].p.x, near[a].p.y); ctx.lineTo(near[b].p.x, near[b].p.y);
+          ctx.stroke();
+        }
       }
-    }
-    focusLabel.style.left = (fp.x*innerWidth)+'px';
-    focusLabel.style.top = (fp.y*innerHeight - 20)+'px';
-    focusLabel.style.opacity = 0.55;
+      if(hi === 0){
+        focusLabel.style.left = (fp.x*innerWidth)+'px';
+        focusLabel.style.top = (fp.y*innerHeight - 20)+'px';
+        focusLabel.style.opacity = 0.55;
+      }
+    });
   } else {
     focusLabel.style.opacity = 0;
   }
 
+  const diffusionAlpha = 0.3 + diffusionProgress*0.55;
   for(const p of pts){
     ctx.beginPath();
-    ctx.fillStyle= diffusionActive ? `rgba(217,122,149,0.7)` : 'rgba(232,201,138,0.75)';
+    ctx.fillStyle= diffusionActive ? `rgba(217,122,149,${diffusionAlpha})` : 'rgba(232,201,138,0.75)';
     ctx.arc(p.x,p.y,p.r*DPR,0,Math.PI*2);
     ctx.fill();
   }

@@ -184,18 +184,6 @@
   border: 0;
 }
 
-.fullscreen-link {
-  display: inline-block;
-  margin-top: 12px;
-  font-family: var(--font-heading);
-  font-size: 0.82rem;
-  color: var(--text-faint);
-}
-
-.fullscreen-link:hover {
-  color: var(--accent-1);
-}
-
 .project-screenshot {
   aspect-ratio: 16 / 9;
 }
