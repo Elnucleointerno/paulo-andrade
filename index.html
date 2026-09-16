@@ -3,34 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070a">
 <title>Paulo Andrade — Portfolio</title>
 <meta name="description" content="Paulo Andrade — productor audiovisual, editor y diseñador gráfico freelance en San Cristóbal de las Casas, Chiapas.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Paulo Andrade — Portfolio">
+<meta property="og:description" content="Producción creativa + tecnología. Video, diseño, apps con IA y música, desde San Cristóbal de las Casas, Chiapas.">
+<meta property="og:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-image.jpg">
+<meta property="og:url" content="https://elnucleointerno.github.io/paulo-andrade/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Paulo Andrade — Portfolio">
+<meta name="twitter:description" content="Producción creativa + tecnología. Video, diseño, apps con IA y música, desde San Cristóbal de las Casas, Chiapas.">
+<meta name="twitter:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/reset.css?v=5">
-<link rel="stylesheet" href="css/variant-a.css?v=5">
-<link rel="stylesheet" href="css/sections.css?v=5">
+<link rel="stylesheet" href="css/reset.css?v=7">
+<link rel="stylesheet" href="css/variant-a.css?v=7">
+<link rel="stylesheet" href="css/sections.css?v=7">
 </head>
 <body>
 
 <header class="site-header">
   <div class="container">
     <a href="#inicio" class="logo">PAULO ANDRADE <span>//</span></a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-links">
       <a href="#inicio">Inicio</a>
+      <a href="espacio-latente.html">Espacio Latente</a>
       <a href="#audiovisual">Audiovisual</a>
       <a href="#apps">Apps &amp; Herramientas</a>
       <a href="#clientes">Trabajos para clientes</a>
       <a href="#music">Angloguaraní Records</a>
-      <a href="diseno.html">Diseño</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <button class="nav-toggle" aria-label="Abrir menú">
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
     </button>
   </div>
 </header>
+
+<nav class="side-rail" aria-label="Navegación de secciones">
+  <a href="#inicio" data-label="Inicio"></a>
+  <a href="#espacio-latente" data-label="Espacio Latente"></a>
+  <a href="#audiovisual" data-label="Audiovisual"></a>
+  <a href="#apps" data-label="Apps & Herramientas"></a>
+  <a href="#clientes" data-label="Trabajos para clientes"></a>
+  <a href="#music" data-label="Angloguaraní Records"></a>
+  <a href="#contacto" data-label="Contacto"></a>
+</nav>
 
 <section class="hero" id="inicio">
   <canvas id="hero-field" aria-hidden="true"></canvas>
@@ -54,6 +76,21 @@
         <div><strong>Áreas</strong>Video · Diseño · Automatización con IA</div>
         <div><strong>Sello</strong>Angloguaraní Records</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESPACIO LATENTE (DESTACADO) ================= -->
+<section class="section" id="espacio-latente">
+  <div class="container">
+    <div class="featured-project reveal">
+      <div class="section-eyebrow">→ Proyecto destacado</div>
+      <h2 class="featured-project-title">Espacio <span class="accent">Latente</span></h2>
+      <p class="featured-project-desc">
+        Instalación audiovisual generativa e interactiva que convierte en
+        experiencia recorrible el espacio latente de los modelos de IA.
+      </p>
+      <a class="btn btn-primary" href="espacio-latente.html">Explorar la instalación →</a>
     </div>
   </div>
 </section>
@@ -135,46 +172,6 @@
             <span>En desarrollo</span>
             <span>Ciencia ficción</span>
           </div>
-        </div>
-      </article>
-
-      <!-- Espacio Latente -->
-      <article class="project-card project-card--stacked reveal">
-        <div class="project-heading">
-          <div class="project-index">Proyecto 03</div>
-          <h3>Espacio Latente</h3>
-        </div>
-        <div class="project-media">
-          <iframe class="espacio-latente-embed" src="experimentos/espacio-latente/index.html" title="Espacio Latente — instalación interactiva"></iframe>
-        </div>
-        <div class="project-body">
-          <p class="project-desc">
-            Instalación audiovisual generativa e interactiva que convierte en
-            experiencia recorrible el espacio latente de los modelos de IA: un
-            campo de partículas guiado por síntesis de audio en tiempo real,
-            un mecanismo de atención y un gesto de disolución/reconstrucción,
-            con un poema propio narrando la pieza. Construida en HTML5/Canvas
-            puro + Web Audio API nativa, sin dependencias externas.
-          </p>
-          <div class="project-tags">
-            <span>Instalación interactiva</span>
-            <span>HTML5 Canvas</span>
-            <span>Web Audio API</span>
-          </div>
-          <dl class="project-meta">
-            <div>
-              <dt>Recorrido</dt>
-              <dd>Automático por defecto</dd>
-            </div>
-            <div>
-              <dt>Navegación</dt>
-              <dd>Arrastrar para moverse manualmente</dd>
-            </div>
-            <div>
-              <dt>Gesto</dt>
-              <dd>Mantener presionado para disolver/reconstruir</dd>
-            </div>
-          </dl>
         </div>
       </article>
 
@@ -591,8 +588,8 @@
     <a class="contact-email" href="mailto:angloguaranirecords@gmail.com">angloguaranirecords@gmail.com</a>
 
     <div class="contact-socials">
-      <a href="#">Instagram <span class="pending">Completar</span></a>
-      <a href="#">WhatsApp <span class="pending">Completar</span></a>
+      <span class="contact-social-pending">Instagram <span class="pending">Completar</span></span>
+      <span class="contact-social-pending">WhatsApp <span class="pending">Completar</span></span>
     </div>
   </div>
 </section>
@@ -600,16 +597,19 @@
 <footer class="site-footer">
   <div class="container">
     <p>&copy; <span id="year"></span> Paulo Andrade. Todos los derechos reservados.</p>
+    <p class="system-status">// build: <span id="build-date"></span></p>
     <a class="back-to-top" href="#inicio">volver arriba ↑</a>
   </div>
 </footer>
 
-<script src="js/nav.js?v=5"></script>
-<script src="js/video-embed.js?v=5"></script>
-<script src="js/gallery.js?v=5"></script>
-<script src="js/lightbox.js?v=5"></script>
-<script src="js/hero-field.js?v=5"></script>
-<script src="js/scroll-reveal.js?v=5"></script>
-<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="js/nav.js?v=7"></script>
+<script src="js/video-embed.js?v=7"></script>
+<script src="js/gallery.js?v=7"></script>
+<script src="js/lightbox.js?v=7"></script>
+<script src="js/hero-field.js?v=7"></script>
+<script src="js/hero-typing.js?v=7"></script>
+<script src="js/scroll-reveal.js?v=7"></script>
+<script src="js/side-rail.js?v=7"></script>
+<script src="js/footer-status.js?v=7"></script>
 </body>
 </html>
