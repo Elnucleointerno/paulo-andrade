@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/reset.css?v=4">
-<link rel="stylesheet" href="css/variant-a.css?v=4">
-<link rel="stylesheet" href="css/sections.css?v=4">
+<link rel="stylesheet" href="css/reset.css?v=5">
+<link rel="stylesheet" href="css/variant-a.css?v=5">
+<link rel="stylesheet" href="css/sections.css?v=5">
 </head>
 <body>
 
@@ -33,6 +33,7 @@
 </header>
 
 <section class="hero" id="inicio">
+  <canvas id="hero-field" aria-hidden="true"></canvas>
   <div class="container">
     <div class="hero-content">
       <div class="hero-eyebrow">status: disponible para proyectos</div>
@@ -60,7 +61,7 @@
 <!-- ================= AUDIOVISUAL ================= -->
 <section class="section" id="audiovisual">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="section-eyebrow">01 — Audiovisual</div>
       <h2 class="section-title">Video, dirección y proyectos experimentales</h2>
       <p class="section-intro">
@@ -72,7 +73,7 @@
     <div class="projects">
 
       <!-- Abducción Digital -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="video-embed" data-video-id="l8p2ugiUOXM" data-title="Abducción Digital"></div>
         </div>
@@ -104,7 +105,7 @@
       </article>
 
       <!-- John Kohinoor -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="mini-gallery">
             <figure class="gallery-item gallery-item--wide">
@@ -138,7 +139,7 @@
       </article>
 
       <!-- Espacio Latente -->
-      <article class="project-card project-card--stacked">
+      <article class="project-card project-card--stacked reveal">
         <div class="project-heading">
           <div class="project-index">Proyecto 03</div>
           <h3>Espacio Latente</h3>
@@ -189,7 +190,7 @@
 <!-- ================= APPS & HERRAMIENTAS ================= -->
 <section class="section" id="apps">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="section-eyebrow">02 — Apps & Herramientas</div>
       <h2 class="section-title">Cosas que construí para resolver problemas reales</h2>
       <p class="section-intro">
@@ -201,7 +202,7 @@
     <div class="projects">
 
       <!-- Stage OS -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <figure class="gallery-item project-screenshot">
             <img src="assets/stage-os/screenshot.jpg" alt="Stage OS — captura de la cue list en uso" loading="lazy">
@@ -238,7 +239,7 @@
       </article>
 
       <!-- Karaoke Maker -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="terminal-window">
             <div class="terminal-titlebar">
@@ -283,7 +284,7 @@
       </article>
 
       <!-- Basicoss -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="video-embed" data-video-id="PEGAR_ID_VIDEO" data-title="Demo de Basicoss"></div>
         </div>
@@ -316,7 +317,7 @@
       </article>
 
       <!-- Finance OS -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="video-embed" data-video-id="PEGAR_ID_VIDEO" data-title="Demo de Finance OS"></div>
         </div>
@@ -359,7 +360,7 @@
 <!-- ================= TRABAJOS PARA CLIENTES ================= -->
 <section class="section" id="clientes">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="section-eyebrow">03 — Trabajos para clientes</div>
       <h2 class="section-title">Trabajos para clientes</h2>
       <p class="section-intro">
@@ -370,7 +371,7 @@
     <div class="projects">
 
       <!-- Café Burguete -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="mini-gallery mini-gallery--labels">
             <figure class="gallery-item">
@@ -414,7 +415,7 @@
       </article>
 
       <!-- Arteria — Galería de Arte -->
-      <article class="project-card">
+      <article class="project-card reveal">
         <div class="project-media">
           <div class="mini-gallery mini-gallery--labels">
             <figure class="gallery-item">
@@ -464,7 +465,7 @@
 <!-- ================= ANGLOGUARANÍ RECORDS ================= -->
 <section class="section" id="music">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="section-eyebrow">04 — Angloguaraní Records</div>
       <h2 class="section-title">Mi sello personal de música</h2>
       <p class="section-intro">
@@ -475,7 +476,7 @@
     </div>
 
     <div class="music-grid">
-      <div class="music-block music-block--full">
+      <div class="music-block music-block--full reveal">
         <h3>Lanzamientos</h3>
         <div class="release-grid">
 
@@ -539,7 +540,7 @@
         </div>
       </div>
 
-      <div class="music-block music-block--full" id="dominico-sessions">
+      <div class="music-block music-block--full reveal" id="dominico-sessions">
         <h3>Dominico Sessions</h3>
         <p class="music-block-desc">
           Dominico Sessions es un proyecto audiovisual que con su clima
@@ -562,7 +563,7 @@
         </div>
       </div>
 
-      <div class="music-block music-block--full music-block--cumbia">
+      <div class="music-block music-block--full music-block--cumbia reveal">
         <img class="cumbia-logo" src="assets/angloguarani/cumbia-logo.png" alt="Cumb.I.A. — data con cuerpo" loading="lazy">
         <p class="music-block-desc">
           Proyecto de Instagram que combina cumbia generada con IA, memes y
@@ -581,7 +582,7 @@
 <!-- ================= CONTACTO ================= -->
 <section class="section contact-section" id="contacto">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="section-eyebrow">05 — Contacto</div>
       <h2 class="section-title">¿Hablamos de tu proyecto?</h2>
       <p class="section-intro">Video, diseño o automatización — contame qué necesitás.</p>
@@ -603,10 +604,12 @@
   </div>
 </footer>
 
-<script src="js/nav.js?v=4"></script>
-<script src="js/video-embed.js?v=4"></script>
-<script src="js/gallery.js?v=4"></script>
-<script src="js/lightbox.js?v=4"></script>
+<script src="js/nav.js?v=5"></script>
+<script src="js/video-embed.js?v=5"></script>
+<script src="js/gallery.js?v=5"></script>
+<script src="js/lightbox.js?v=5"></script>
+<script src="js/hero-field.js?v=5"></script>
+<script src="js/scroll-reveal.js?v=5"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
