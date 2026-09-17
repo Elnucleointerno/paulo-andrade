@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let group = [];
   let index = 0;
+  let triggerEl = null;
 
   function render() {
     const img = group[index];
@@ -30,17 +31,20 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.hidden = !multi;
   }
 
-  function open(newGroup, newIndex) {
+  function open(newGroup, newIndex, trigger) {
     group = newGroup;
     index = newIndex;
+    triggerEl = trigger || document.activeElement;
     render();
     overlay.classList.add("is-open");
     document.body.style.overflow = "hidden";
+    closeBtn.focus();
   }
 
   function close() {
     overlay.classList.remove("is-open");
     document.body.style.overflow = "";
+    if (triggerEl) triggerEl.focus();
   }
 
   function next() {

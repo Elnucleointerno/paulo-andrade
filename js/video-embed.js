@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".video-embed[data-video-id]").forEach((el) => {
+  document.querySelectorAll(".video-embed[data-video-id]").forEach((el, i) => {
     const id = el.dataset.videoId;
     const provider = el.dataset.videoProvider || "youtube";
     const title = el.dataset.title || "Video demo";
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const thumb = document.createElement("img");
     thumb.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
     thumb.alt = title;
-    thumb.loading = "lazy";
+    thumb.loading = i === 0 ? "eager" : "lazy";
 
     const playBtn = document.createElement("button");
     playBtn.type = "button";
