@@ -310,13 +310,6 @@
   line-height: 1.6;
 }
 
-.video-embed--pending span {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  color: var(--text-faint);
-  margin-top: 6px;
-}
 
 .video-embed--facade {
   cursor: pointer;

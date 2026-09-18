@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!id || id === "PEGAR_ID_VIDEO") {
       el.classList.add("video-embed--pending");
-      el.innerHTML =
-        "<p>Video demo pendiente<br><span>Reemplazá data-video-id (y data-video-provider si es Vimeo) en el HTML</span></p>";
+      el.innerHTML = "<p>Demo próximamente</p>";
       return;
     }
 
