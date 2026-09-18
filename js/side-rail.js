@@ -18,8 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!entry.isIntersecting) return;
         const match = sections.find((s) => s.el === entry.target);
         if (!match) return;
-        links.forEach((l) => l.classList.remove("is-active"));
+        links.forEach((l) => {
+          l.classList.remove("is-active");
+          l.removeAttribute("aria-current");
+        });
         match.link.classList.add("is-active");
+        match.link.setAttribute("aria-current", "location");
       });
     },
     { rootMargin: "-45% 0px -45% 0px" }
