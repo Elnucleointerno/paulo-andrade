@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#05070a">
 <title>Paulo Andrade — Portfolio</title>
-<meta name="description" content="Paulo Andrade — productor audiovisual, editor y diseñador gráfico freelance en San Cristóbal de las Casas, Chiapas.">
+<meta name="description" content="Paulo Andrade — producción creativa + tecnología: video, diseño y herramientas con IA. Freelance en San Cristóbal de las Casas, Chiapas.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <meta property="og:type" content="website">
@@ -20,9 +20,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/reset.css?v=16">
-<link rel="stylesheet" href="css/variant-a.css?v=16">
-<link rel="stylesheet" href="css/sections.css?v=16">
+<link rel="stylesheet" href="css/reset.css?v=17">
+<link rel="stylesheet" href="css/variant-a.css?v=17">
+<link rel="stylesheet" href="css/sections.css?v=17">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -42,7 +42,7 @@
 </head>
 <body>
 
-<a href="#inicio" class="skip-link">Saltar al contenido</a>
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
 
 <header class="site-header">
   <div class="container">
@@ -63,14 +63,16 @@
 </header>
 
 <nav class="side-rail" aria-label="Navegación de secciones">
-  <a href="#inicio" data-label="Inicio"></a>
-  <a href="#espacio-latente" data-label="Espacio Latente"></a>
-  <a href="#audiovisual" data-label="Audiovisual"></a>
-  <a href="#apps" data-label="Apps & Herramientas"></a>
-  <a href="#clientes" data-label="Trabajos para clientes"></a>
-  <a href="#music" data-label="Angloguaraní Records"></a>
-  <a href="#contacto" data-label="Contacto"></a>
+  <a href="#inicio" data-label="Inicio" aria-label="Ir a Inicio"></a>
+  <a href="#espacio-latente" data-label="Espacio Latente" aria-label="Ir a Espacio Latente"></a>
+  <a href="#audiovisual" data-label="Audiovisual" aria-label="Ir a Audiovisual"></a>
+  <a href="#apps" data-label="Apps & Herramientas" aria-label="Ir a Apps y Herramientas"></a>
+  <a href="#clientes" data-label="Clientes" aria-label="Ir a Clientes"></a>
+  <a href="#music" data-label="Música" aria-label="Ir a Música"></a>
+  <a href="#contacto" data-label="Contacto" aria-label="Ir a Contacto"></a>
 </nav>
+
+<main id="contenido">
 
 <section class="hero" id="inicio" tabindex="-1">
   <canvas id="hero-field" aria-hidden="true"></canvas>
@@ -86,7 +88,7 @@
         Cristóbal de las Casas, Chiapas, México.
       </p>
       <div class="hero-actions">
-        <a href="#apps" class="btn btn-primary">Ver proyectos</a>
+        <a href="#espacio-latente" class="btn btn-primary">Ver proyectos</a>
         <a href="#contacto" class="btn btn-secondary">Contacto</a>
       </div>
       <div class="hero-meta">
@@ -207,7 +209,7 @@
       <p class="music-block-desc">
         Dominico Sessions es un proyecto audiovisual que con su clima
         intimista busca que les artistas reinventen el espacio y lo llenen
-        de sí, casi como estar en sus casas.
+        de sí, casi como estar en sus casas. Dirigí y edité las Dominico Sessions.
       </p>
       <div class="sessions-videos">
         <div class="session-video">
@@ -415,15 +417,15 @@
         <div class="project-media">
           <div class="mini-gallery mini-gallery--labels">
             <figure class="gallery-item">
-              <img src="assets/cafe-burguete/etiqueta-jaguar.jpg" alt="Etiqueta Café Burguete — Jaguar" loading="lazy">
+              <img width="900" height="1519" src="assets/cafe-burguete/etiqueta-jaguar.jpg" alt="Etiqueta Café Burguete — Jaguar" loading="lazy">
               <figcaption>Etiqueta — Jaguar</figcaption>
             </figure>
             <figure class="gallery-item">
-              <img src="assets/cafe-burguete/etiqueta-quetzal.jpg" alt="Etiqueta Café Burguete — Quetzal" loading="lazy">
+              <img width="900" height="1519" src="assets/cafe-burguete/etiqueta-quetzal.jpg" alt="Etiqueta Café Burguete — Quetzal" loading="lazy">
               <figcaption>Etiqueta — Quetzal</figcaption>
             </figure>
             <figure class="gallery-item">
-              <img src="assets/cafe-burguete/flyer-digital.jpg" alt="Flyer digital Café Burguete" loading="lazy">
+              <img width="1000" height="1000" src="assets/cafe-burguete/flyer-digital.jpg" alt="Flyer digital Café Burguete" loading="lazy">
               <figcaption>Flyer digital</figcaption>
             </figure>
           </div>
@@ -459,15 +461,15 @@
         <div class="project-media">
           <div class="mini-gallery mini-gallery--labels">
             <figure class="gallery-item">
-              <img src="assets/arteria/obra-iris.jpg" alt="Catálogo Arteria — obra Iris" loading="lazy">
+              <img width="884" height="1501" src="assets/arteria/obra-iris.jpg" alt="Catálogo Arteria — obra Iris" loading="lazy">
               <figcaption>Iris</figcaption>
             </figure>
             <figure class="gallery-item">
-              <img src="assets/arteria/obra-divino-nino-que.jpg" alt="Catálogo Arteria — obra Divino Niño Que" loading="lazy">
+              <img width="876" height="1501" src="assets/arteria/obra-divino-nino-que.jpg" alt="Catálogo Arteria — obra Divino Niño Que" loading="lazy">
               <figcaption>Divino Niño Que</figcaption>
             </figure>
             <figure class="gallery-item">
-              <img src="assets/arteria/obra-amaya.jpg" alt="Catálogo Arteria — obra Amaya" loading="lazy">
+              <img width="843" height="1501" src="assets/arteria/obra-amaya.jpg" alt="Catálogo Arteria — obra Amaya" loading="lazy">
               <figcaption>Amaya</figcaption>
             </figure>
           </div>
@@ -539,6 +541,8 @@
   </div>
 </section>
 
+</main>
+
 <footer class="site-footer">
   <div class="container">
     <p>&copy; <span id="year"></span> Paulo Andrade. Todos los derechos reservados.</p>
@@ -547,15 +551,16 @@
   </div>
 </footer>
 
-<script src="js/nav.js?v=16"></script>
-<script src="js/video-embed.js?v=16"></script>
-<script src="js/gallery.js?v=16"></script>
-<script src="js/lightbox.js?v=16"></script>
-<script src="js/hero-field.js?v=16"></script>
-<script src="js/hero-typing.js?v=16"></script>
-<script src="js/scroll-reveal.js?v=16"></script>
-<script src="js/side-rail.js?v=16"></script>
-<script src="js/footer-status.js?v=16"></script>
-<script src="js/copy-email.js?v=16"></script>
+<script src="js/nav.js?v=17"></script>
+<script src="js/video-embed.js?v=17"></script>
+<script src="js/gallery.js?v=17"></script>
+<script src="js/lightbox.js?v=17"></script>
+<script src="js/hero-field.js?v=17"></script>
+<script src="js/hero-typing.js?v=17"></script>
+<script src="js/scroll-reveal.js?v=17"></script>
+<script src="js/side-rail.js?v=17"></script>
+<script src="js/footer-status.js?v=17"></script>
+<script src="js/copy-email.js?v=17"></script>
+<script src="js/preview-video.js?v=17"></script>
 </body>
 </html>
