@@ -6,7 +6,6 @@
 .section {
   padding: 120px 0;
   border-top: 1px solid var(--border);
-  scroll-margin-top: 96px;
 }
 
 .section-head {
