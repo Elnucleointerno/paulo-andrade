@@ -499,6 +499,7 @@
   gap: 32px;
 }
 
+.music-block h2,
 .music-block h3 {
   font-family: var(--font-heading);
   font-size: 1rem;
