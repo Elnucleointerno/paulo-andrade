@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!links) return;
 
   const navLinks = [...links.querySelectorAll("a")];
-  const currentFile = location.pathname.split("/").pop() || "index.html";
+  const pageName = (path) => (path.split("/").pop() || "index").replace(/\.html$/, "");
+  const currentFile = pageName(location.pathname);
 
   function setActive(activeLink) {
     navLinks.forEach((l) => {
@@ -22,8 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageLink = navLinks.find((link) => {
     const href = link.getAttribute("href");
     if (href.startsWith("#")) return false;
-    const linkFile = link.pathname.split("/").pop() || "index.html";
-    return linkFile === currentFile;
+    return pageName(link.pathname) === currentFile;
   });
   if (pageLink) setActive(pageLink);
 
@@ -53,17 +53,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!toggle) return;
 
-  toggle.addEventListener("click", () => {
-    const isOpen = links.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-    document.body.style.overflow = isOpen ? "hidden" : "";
+  function setMenu(open) {
+    links.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  toggle.addEventListener("click", () => setMenu(!links.classList.contains("is-open")));
+
+  navLinks.forEach((link) => link.addEventListener("click", () => setMenu(false)));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && links.classList.contains("is-open")) {
+      setMenu(false);
+      toggle.focus();
+    }
   });
 
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      links.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-    });
+  window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => {
+    if (e.matches) setMenu(false);
   });
 });

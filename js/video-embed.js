@@ -22,11 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Facade: solo pedirle a YouTube su miniatura hasta que hagan clic.
+    el.textContent = "";
     el.classList.add("video-embed--facade");
 
     const thumb = document.createElement("img");
     thumb.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-    thumb.alt = title;
+    thumb.alt = "";
     thumb.loading = i === 0 ? "eager" : "lazy";
 
     const playBtn = document.createElement("button");
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function load() {
       const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
       iframe.title = title;
       iframe.allow =
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";

@@ -269,6 +269,34 @@
   margin-top: 48px;
 }
 
+/* Enlace de respaldo: visible solo si no corre JS (el script lo reemplaza por la fachada) */
+.video-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--accent-1);
+}
+
+.video-fallback:hover {
+  color: var(--accent-2);
+}
+
+.gallery-item img:focus-visible {
+  outline: 2px solid var(--accent-1);
+  outline-offset: -4px;
+}
+
+.release-item iframe {
+  width: 100%;
+  border: 0;
+}
+
 .video-embed--pending {
   display: flex;
   align-items: center;
@@ -802,13 +830,16 @@
   padding: 60px 40px;
   background: rgba(5, 7, 10, 0.94);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .lightbox.is-open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0s;
 }
 
 .lightbox img {
@@ -926,7 +957,7 @@
   font-family: var(--font-heading);
   font-size: 0.72rem;
   letter-spacing: 0.03em;
-  color: var(--border-strong);
+  color: var(--text-faint);
 }
 
 .back-to-top {

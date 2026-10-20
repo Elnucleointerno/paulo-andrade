@@ -2,11 +2,12 @@
    Fondo negro-azulado, verde lima + magenta, mono en títulos. */
 
 :root {
+  color-scheme: dark;
   --bg: #05070a;
   --header-bg: rgba(5, 7, 10, 0.85);
   --text: #eef2f0;
   --text-muted: #a9b3ad;
-  --text-faint: #7d8880;
+  --text-faint: #828d85;
   --border: #16211c;
   --border-strong: #253a30;
 
