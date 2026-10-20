@@ -1,0 +1,9 @@
+Fuentes incluidas en este sitio (autohospedadas):
+
+- JetBrains Mono: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+- Inter: Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+
+Ambas se distribuyen bajo la licencia SIL Open Font License, Version 1.1
+(https://openfontlicense.org), que permite usarlas y redistribuirlas, incluso
+en sitios comerciales, siempre que se conserve este aviso.
+Los archivos son los mismos que sirve Google Fonts (subconjuntos latin y latin-ext).
