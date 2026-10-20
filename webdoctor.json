@@ -1,0 +1,42 @@
+{
+  "excluir": ["experimentos"],
+  "nivel": "profesional",
+  "url_base": "https://elnucleointerno.github.io/paulo-andrade/",
+  "aceptados": [
+    {
+      "pagina": "diseno.html",
+      "revision": "archivo",
+      "contiene": "assets/diseno/",
+      "motivo": "página oculta a propósito: todavía falta el material de Diseño"
+    },
+    {
+      "pagina": "diseno.html",
+      "revision": "red",
+      "contiene": "assets/diseno/",
+      "motivo": "página oculta a propósito: todavía falta el material de Diseño"
+    }
+  ],
+  "perfil": "produccion",
+  "flujos": [
+    {
+      "nombre": "El lightbox se abre con un clic en una imagen y se cierra con Escape",
+      "pasos": [
+        { "abrir": "index.html" },
+        { "bajar": 5200 },
+        { "verificar": { "no_visible": ".lightbox" } },
+        { "clic": "#clientes .gallery-item img" },
+        { "verificar": { "visible": ".lightbox.is-open" } },
+        { "tecla": "Escape" },
+        { "verificar": { "no_visible": ".lightbox" } }
+      ]
+    },
+    {
+      "nombre": "El botón Explorar la instalación lleva a la página de Espacio Latente",
+      "pasos": [
+        { "abrir": "index.html" },
+        { "clic": ".featured-project .btn-primary" },
+        { "verificar": { "url_contiene": "espacio-latente.html" } }
+      ]
+    }
+  ]
+}
