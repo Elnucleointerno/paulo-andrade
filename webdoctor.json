@@ -28,6 +28,36 @@
       "motivo": "Falso positivo del Doctor: el <video controls> nativo tiene sus propios botones y el foco pasa por ellos (activeElement sigue siendo el video). Se comprobó con Playwright: desde el video, 4 Tab recorren los controles y el quinto llega al resumen «Qué se ve en el video»; el foco sale."
     },
     {
+          "pagina": "(sitio)",
+          "revision": "peso",
+          "contiene": "demo-basicoss.mp4",
+          "motivo": "Se subió la calidad a propósito (crf 28), igual que el video de Vittapalma: a menos calidad se veía pixelado en el celular y la demo muestra texto de interfaz. No pesa en la carga: el video usa preload=none (solo baja si se reproduce) y está precedido por un póster webp de 30 KB"
+    },
+    {
+          "pagina": "basicoss.html",
+          "revision": "teclado",
+          "contiene": "video",
+          "motivo": "Falso positivo del Doctor: el <video controls> nativo tiene sus propios botones y el foco pasa por ellos (activeElement sigue siendo el video). Se comprobó con Playwright: desde el video, el foco recorre los controles y sale (VIDEO, VIDEO, «Qué se ve en el video», imágenes)"
+    },
+    {
+          "pagina": "basicoss.html",
+          "revision": "contraste real",
+          "contiene": "Todas las pantallas",
+          "motivo": "Falso positivo: lo midió mientras el bloque terminaba de aparecer (reveal, opacidad < 1). Ya revelado, el texto es rgb(130,141,133) con opacidad 1 sobre #05070a = 5,86:1, comprobado con getComputedStyle"
+    },
+    {
+          "pagina": "basicoss.html",
+          "revision": "contraste real",
+          "contiene": "Necesitas algo parecido",
+          "motivo": "Falso positivo: medido durante la aparición del bloque. Ya revelado, el botón es texto #05070a sobre #b6ff3c = 16,67:1, comprobado con getComputedStyle"
+    },
+    {
+          "pagina": "basicoss.html",
+          "revision": "contraste real",
+          "contiene": "Tecnología",
+          "motivo": "Falso positivo: medido durante la aparición del bloque. Ya revelado, el título es #b6ff3c sobre #05070a = 16,67:1, comprobado con getComputedStyle"
+    },
+    {
       "pagina": "diseno.html",
       "revision": "archivo",
       "contiene": "assets/diseno/",
