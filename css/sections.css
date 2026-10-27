@@ -1029,10 +1029,15 @@
   width: 100%;
   height: auto; /* el atributo height del <video> fijaria 720 px y dejaria barras */
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  object-fit: contain; /* con cover, en pantalla completa el video se recortaba y se veia ampliado y cortado */
   background: #0a0f0c;
   border: 1px solid var(--border-strong);
   border-radius: 2px;
+}
+
+.project-video:fullscreen {
+  object-fit: contain;
+  background: #000;
 }
 
 .project-cta {
@@ -1156,5 +1161,22 @@
 @media (max-width: 560px) {
   .case-shots {
     grid-template-columns: 1fr;
+  }
+
+  .case-video {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+
+  .case-video .project-video {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  .case-video .project-context,
+  .case-video .case-more {
+    margin-left: 24px;
+    margin-right: 24px;
   }
 }

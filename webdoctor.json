@@ -4,6 +4,12 @@
   "url_base": "https://elnucleointerno.github.io/paulo-andrade/",
   "aceptados": [
     {
+      "pagina": "(sitio)",
+      "revision": "peso",
+      "contiene": "demo-vittapalma.mp4",
+      "motivo": "Se subió la calidad a propósito: a ~0,9 MB (crf 32) se veía pixelado en el celular, y la demo muestra texto de interfaz. No pesa en la carga: el video usa preload=none (solo baja si se reproduce) y está precedido por un póster webp de 27 KB"
+    },
+    {
       "pagina": "vittapalma.html",
       "revision": "contraste real",
       "contiene": "Node.js, Express",
