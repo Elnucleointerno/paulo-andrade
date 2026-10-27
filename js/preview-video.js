@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const videos = document.querySelectorAll(".featured-project-media video");
+  const videos = document.querySelectorAll(".featured-project-media video, .project-media video[data-preview]");
   if (!videos.length) return;
 
   // Con movimiento reducido (o sin IntersectionObserver) el video nunca arranca: queda el póster.

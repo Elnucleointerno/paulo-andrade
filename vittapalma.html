@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070a">
+<title>Sistema de gestión Vittapalma — Paulo Andrade</title>
+<meta name="description" content="Caso de estudio: app de escritorio, sin internet, para registrar consultantes y sesiones de terapia Healy. Datos de salud locales y lectura de PDF.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="canonical" href="https://elnucleointerno.github.io/paulo-andrade/vittapalma.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sistema de gestión Vittapalma — Paulo Andrade">
+<meta property="og:description" content="Caso de estudio: app de escritorio, sin internet, para registrar consultantes y sesiones de terapia Healy.">
+<meta property="og:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-vittapalma.jpg">
+<meta property="og:url" content="https://elnucleointerno.github.io/paulo-andrade/vittapalma.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sistema de gestión Vittapalma — Paulo Andrade">
+<meta name="twitter:description" content="Caso de estudio: app de escritorio, sin internet, para registrar consultantes y sesiones de terapia Healy.">
+<meta name="twitter:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-vittapalma.jpg">
+<link rel="preload" href="assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/reset.css?v=27">
+<link rel="stylesheet" href="css/variant-a.css?v=27">
+<link rel="stylesheet" href="css/sections.css?v=27">
+<noscript><style>.reveal{opacity:1;transform:none;filter:none}</style></noscript>
+</head>
+<body>
+
+<a href="#proyecto" class="skip-link">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html#inicio" class="logo">PAULO ANDRADE <span>//</span></a>
+    <nav class="nav-links" id="nav-links">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="espacio-latente.html">Espacio Latente</a>
+      <a href="index.html#audiovisual">Audiovisual</a>
+      <a href="index.html#apps">Apps &amp; Herramientas</a>
+      <a href="index.html#clientes">Clientes</a>
+      <a href="angloguarani-records.html">Música</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="proyecto" tabindex="-1">
+<section class="section">
+  <div class="container">
+
+    <div class="section-head case-head reveal">
+      <div class="section-eyebrow">→ Caso de estudio · Sistema a medida</div>
+      <h1 class="section-title">Sistema de gestión Vittapalma</h1>
+      <p class="section-intro">
+        Sistema de escritorio para registrar consultantes y sesiones de terapia
+        Healy, en reemplazo de una planilla en papel. Funciona sin internet: los
+        datos de salud quedan en la computadora de la terapeuta, no en la nube.
+      </p>
+      <div class="project-tags">
+        <span>Datos de salud</span>
+        <span>Sin internet</span>
+        <span>App de escritorio</span>
+        <span>Windows y Mac</span>
+      </div>
+    </div>
+
+    <div class="case-video reveal">
+      <video class="project-video" controls muted loop playsinline preload="none" width="1280" height="720" poster="assets/vittapalma/01-agenda-1080.webp" aria-label="Demo del sistema Vittapalma con datos ficticios, de unos 50 segundos, sin audio">
+        <source src="assets/vittapalma/demo-vittapalma.mp4" type="video/mp4">
+      </video>
+      <p class="project-context">Demo con datos ficticios, sin audio (unos 50 s). La app real guarda todo en la computadora de la terapeuta.</p>
+      <details class="case-more">
+        <summary>Qué se ve en el video</summary>
+        <ol>
+          <li>Cada terapeuta entra con su usuario y contraseña.</li>
+          <li>La agenda muestra quién viene, qué falta confirmar y qué venció.</li>
+          <li>La ficha de una consultante muestra su próxima sesión y la evolución de cada indicador, sesión a sesión.</li>
+          <li>Se carga una sesión nueva: programa principal, programas aplicados y accesorios.</li>
+          <li>Se suben dos PDF de análisis; el sistema los lee, deduce el grupo de programas y la base de datos, y la terapeuta los revisa antes de guardar.</li>
+          <li>Se marca cómo se sintió la persona antes y después de la sesión.</li>
+          <li>La sesión queda guardada y lista para imprimir con espacio para las firmas.</li>
+        </ol>
+      </details>
+    </div>
+
+    <dl class="project-meta case-meta reveal">
+      <div>
+        <dt>Rol</dt>
+        <dd>Producto, diseño y desarrollo end-to-end</dd>
+      </div>
+      <div>
+        <dt>Año y tipo</dt>
+        <dd>2026 · cliente</dd>
+      </div>
+      <div>
+        <dt>Estado</dt>
+        <dd>Entregado en octubre de 2026, en prueba con la clienta</dd>
+      </div>
+      <div>
+        <dt>Crédito</dt>
+        <dd>Logo: Vittapalma · Manual de marca y sistema: Paulo Andrade</dd>
+      </div>
+    </dl>
+
+    <div class="case-row reveal">
+      <h2>Problema</h2>
+      <div>
+        <p>
+          Vittapalma es un espacio de terapia Healy en Tuxtla Gutiérrez, atendido
+          por dos terapeutas. Cada sesión se registraba en una planilla en papel:
+          motivo de consulta, análisis, programas aplicados, cómo se sentía la
+          persona antes y después, y la próxima cita.
+        </p>
+        <p>
+          Necesitaban un registro ordenado de consultantes y sesiones, con
+          historial, agenda y una hoja imprimible para firmar.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Decisión</h2>
+      <div>
+        <p>
+          Son datos de salud, así que antes de elegir tecnología decidí dónde
+          viven. En lugar de un servicio en la nube (cuentas, hosting y una
+          suscripción mensual, con la información en servidores ajenos), armé una
+          app de escritorio con base de datos local: sin costo mensual, sin
+          depender de internet y con los datos en la computadora de la
+          terapeuta. El código queda en capas para poder pasar a la nube más
+          adelante, si hiciera falta.
+        </p>
+        <p>
+          Una regla de la clienta ordena el resto: no hay borrado. Lo que se
+          equivoca se corrige o se anula, nunca desaparece.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Construcción</h2>
+      <ul class="case-list">
+        <li>Ingreso para dos terapeutas, con la opción de mantener la sesión iniciada.</li>
+        <li>Agenda con el estado de cada próxima sesión (por confirmar, confirmada, vencida, pendiente de agendar) y un mensaje de WhatsApp ya escrito: la terapeuta lo revisa y lo envía.</li>
+        <li>Ficha de cada consultante con la evolución, sesión a sesión, de siete indicadores (energía, estrés, dolor, estado emocional, sueño, claridad mental y apetito), antes y después.</li>
+        <li>Registro de sesión con los 24 grupos de programas Healy y sus 218 programas, accesorios Healy y MagHealy, y programas complementarios.</li>
+        <li>Lectura de los PDF de análisis que exporta Healy (resonancia, aura y coaching): se suben, se leen en la propia computadora, sin IA ni internet, y aparecen como tarjetas para revisar y corregir. Se guarda solo el resumen. El sistema deduce a qué grupo de programas pertenece cada análisis y reconoce varias bases de datos.</li>
+        <li>Hoja de sesión imprimible, con espacio para las firmas.</li>
+        <li>Instaladores para Windows y Mac. El de Mac no se puede armar desde Windows, así que se arma con un flujo automático en GitHub.</li>
+      </ul>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Entrega y cuidado</h2>
+      <div>
+        <p>
+          Como son datos de salud, cada actualización está pensada para no perder
+          nada: registro de cambios por versión, copia de seguridad automática
+          antes de tocar la base, pruebas de migración con datos inventados y un
+          revisor propio que abre la app empaquetada y recorre sus flujos antes de
+          cada entrega. La versión instalada se ve en pantalla.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Resultado</h2>
+      <div>
+        <p>
+          Entregado a la clienta en octubre de 2026, en la computadora que usa
+          (una Mac), y en prueba con ella. Cuando haya resultados de uso, los
+          sumo acá.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Tecnología</h2>
+      <div>
+        <p>
+          Node.js, Express, SQLite (<code>node:sqlite</code>), Electron,
+          pdf.js, HTML, CSS y JavaScript sin framework, electron-builder y GitHub
+          Actions. Desarrollado con asistente de IA (Claude Code); las decisiones
+          de producto, diseño y revisión son mías.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Pantallas</h2>
+      <div class="case-shots">
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/vittapalma/01-agenda.jpg" srcset="assets/vittapalma/01-agenda-360.webp 360w, assets/vittapalma/01-agenda-720.webp 720w, assets/vittapalma/01-agenda-1080.webp 1080w, assets/vittapalma/01-agenda.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Agenda de próximas sesiones con el estado de cada una: vencida, confirmada o por confirmar" loading="lazy">
+          <figcaption>Agenda de próximas sesiones</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/vittapalma/02-ficha-evolucion.jpg" srcset="assets/vittapalma/02-ficha-evolucion-360.webp 360w, assets/vittapalma/02-ficha-evolucion-720.webp 720w, assets/vittapalma/02-ficha-evolucion-1080.webp 1080w, assets/vittapalma/02-ficha-evolucion.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Gráfico de la evolución del nivel de energía de una consultante, antes y después de cada sesión" loading="lazy">
+          <figcaption>Evolución por indicador</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/vittapalma/03-sesion-analisis.jpg" srcset="assets/vittapalma/03-sesion-analisis-360.webp 360w, assets/vittapalma/03-sesion-analisis-720.webp 720w, assets/vittapalma/03-sesion-analisis-1080.webp 1080w, assets/vittapalma/03-sesion-analisis.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Dos análisis leídos de PDF, con el grupo de programas deducido y la base de datos detectada, listos para revisar" loading="lazy">
+          <figcaption>Análisis leídos del PDF, para revisar</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/vittapalma/05-hoja-imprimible.jpg" srcset="assets/vittapalma/05-hoja-imprimible-360.webp 360w, assets/vittapalma/05-hoja-imprimible-720.webp 720w, assets/vittapalma/05-hoja-imprimible-1080.webp 1080w, assets/vittapalma/05-hoja-imprimible.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Hoja de sesión imprimible con los resultados de los análisis" loading="lazy">
+          <figcaption>Hoja imprimible</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="case-end reveal">
+      <p class="project-context">Todas las pantallas y datos de esta página son de demostración, con nombres inventados.</p>
+      <p class="project-cta"><a class="btn btn-primary" href="index.html#contacto">¿Necesitas algo parecido? Hablemos →</a></p>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Paulo Andrade. Todos los derechos reservados.</p>
+    <p class="system-status">// última actualización: <span id="last-updated"></span></p>
+    <a class="back-to-top" href="index.html#inicio">volver arriba ↑</a>
+  </div>
+</footer>
+
+<script src="js/nav.js?v=27"></script>
+<script src="js/gallery.js?v=27"></script>
+<script src="js/lightbox.js?v=27"></script>
+<script src="js/scroll-reveal.js?v=27"></script>
+<script src="js/footer-status.js?v=27"></script>
+</body>
+</html>

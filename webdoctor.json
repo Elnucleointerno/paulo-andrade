@@ -4,6 +4,24 @@
   "url_base": "https://elnucleointerno.github.io/paulo-andrade/",
   "aceptados": [
     {
+      "pagina": "vittapalma.html",
+      "revision": "contraste real",
+      "contiene": "Node.js, Express",
+      "motivo": "Falso positivo: lo midió mientras el bloque terminaba de aparecer (reveal, opacidad < 1; el valor cambia entre corridas: #707973, #737b76). Ya visible, el texto es #a9b3ad con opacidad 1 sobre #05070a (~9:1), comprobado con getComputedStyle"
+    },
+    {
+      "pagina": "vittapalma.html",
+      "revision": "contraste real",
+      "contiene": "node:sqlite",
+      "motivo": "Mismo caso que el párrafo que lo contiene: medido durante la aparición del bloque; el <code> hereda #a9b3ad y no tiene fondo propio"
+    },
+    {
+      "pagina": "vittapalma.html",
+      "revision": "teclado",
+      "contiene": "video",
+      "motivo": "Falso positivo del Doctor: el <video controls> nativo tiene sus propios botones y el foco pasa por ellos (activeElement sigue siendo el video). Se comprobó con Playwright: desde el video, 4 Tab recorren los controles y el quinto llega al resumen «Qué se ve en el video»; el foco sale."
+    },
+    {
       "pagina": "diseno.html",
       "revision": "archivo",
       "contiene": "assets/diseno/",
