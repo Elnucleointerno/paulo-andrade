@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const seen = new Set();
 
-  document.querySelectorAll(".gallery, .mini-gallery").forEach((container) => {
+  document.querySelectorAll(".gallery, .mini-gallery, .case-shots").forEach((container) => {
     const imgs = [...container.querySelectorAll(".gallery-item:not(.gallery-item--missing) img")];
     imgs.forEach((img) => seen.add(img));
     imgs.forEach((img, i) => {
