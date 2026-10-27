@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070a">
+<title>Sistema de gestión Basicoss — Paulo Andrade</title>
+<meta name="description" content="Caso de estudio: inventario, ventas y caja para un local de suplementos. Funciona sobre Google Sheets, sin base de datos ni hosting.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="canonical" href="https://elnucleointerno.github.io/paulo-andrade/basicoss.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sistema de gestión Basicoss — Paulo Andrade">
+<meta property="og:description" content="Caso de estudio: inventario, ventas y caja para un local de suplementos, sobre Google Sheets.">
+<meta property="og:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-basicoss.jpg">
+<meta property="og:url" content="https://elnucleointerno.github.io/paulo-andrade/basicoss.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sistema de gestión Basicoss — Paulo Andrade">
+<meta name="twitter:description" content="Caso de estudio: inventario, ventas y caja para un local de suplementos, sobre Google Sheets.">
+<meta name="twitter:image" content="https://elnucleointerno.github.io/paulo-andrade/assets/og-basicoss.jpg">
+<link rel="preload" href="assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/reset.css?v=27">
+<link rel="stylesheet" href="css/variant-a.css?v=27">
+<link rel="stylesheet" href="css/sections.css?v=27">
+<noscript><style>.reveal{opacity:1;transform:none;filter:none}</style></noscript>
+</head>
+<body>
+
+<a href="#proyecto" class="skip-link">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html#inicio" class="logo">PAULO ANDRADE <span>//</span></a>
+    <nav class="nav-links" id="nav-links">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="espacio-latente.html">Espacio Latente</a>
+      <a href="index.html#audiovisual">Audiovisual</a>
+      <a href="index.html#apps">Apps &amp; Herramientas</a>
+      <a href="index.html#clientes">Clientes</a>
+      <a href="angloguarani-records.html">Música</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="proyecto" tabindex="-1">
+<section class="section">
+  <div class="container">
+
+    <div class="section-head case-head reveal">
+      <div class="section-eyebrow">→ Caso de estudio · Sistema a medida</div>
+      <h1 class="section-title">Sistema de gestión Basicoss</h1>
+      <p class="section-intro">
+        Sistema de inventario, ventas y caja para un local de suplementos y
+        productos naturales. Funciona en el navegador y guarda todo en una
+        planilla de Google del propio negocio: sin base de datos ni hosting.
+      </p>
+      <div class="project-tags">
+        <span>Inventario</span>
+        <span>Ventas y caja</span>
+        <span>Google Sheets</span>
+        <span>Apps Script</span>
+        <span>Varios locales</span>
+      </div>
+    </div>
+
+    <div class="case-video reveal">
+      <video class="project-video" controls muted loop playsinline preload="none" width="1280" height="720" poster="assets/basicoss/01-vender-1080.webp" aria-label="Demo del sistema Basicoss con datos ficticios, de menos de un minuto, sin audio">
+        <source src="assets/basicoss/demo-basicoss.mp4" type="video/mp4">
+      </video>
+      <p class="project-context">Demo con datos ficticios, sin audio (menos de 1 minuto). La app real guarda todo en la planilla de Google del negocio.</p>
+      <details class="case-more">
+        <summary>Qué se ve en el video</summary>
+        <ol>
+          <li>El inventario muestra el stock de cada producto, con tarjetas de stock bajo y de agotados.</li>
+          <li>La lista de reposición agrupa por marca lo que hay que pedir.</li>
+          <li>Se importan productos nuevos desde un archivo CSV: se ve el archivo, se sube y los productos aparecen en el inventario.</li>
+          <li>En Vender se elige el local (el negocio lleva el stock de cada uno), se arma el carrito, se aplica un descuento a un artículo, se escribe una nota en el ticket y se paga en efectivo: la app calcula el vuelto.</li>
+          <li>Cada venta queda escrita como una fila en la planilla de Google del negocio (en el video, una vista dibujada con datos inventados).</li>
+          <li>Caja muestra cuánto efectivo debería haber, las ventas por método de pago con la comisión de tarjeta ya descontada y la ganancia estimada.</li>
+          <li>Al cerrar el período se compara el efectivo contado con el esperado.</li>
+          <li>El historial agrupa cada compra con su descuento y su nota.</li>
+          <li>El catálogo queda listo para compartir por WhatsApp.</li>
+        </ol>
+      </details>
+    </div>
+
+    <dl class="project-meta case-meta reveal">
+      <div>
+        <dt>Rol</dt>
+        <dd>Producto, diseño y desarrollo end-to-end</dd>
+      </div>
+      <div>
+        <dt>Año y tipo</dt>
+        <dd>2026 · cliente</dd>
+      </div>
+      <div>
+        <dt>Estado</dt>
+        <dd>En uso diario en el local. La versión 11 está en revisión con la clienta</dd>
+      </div>
+      <div>
+        <dt>Crédito</dt>
+        <dd>Marca y logo: Basicoss · Sistema: Paulo Andrade</dd>
+      </div>
+    </dl>
+
+    <div class="case-row reveal">
+      <h2>Problema</h2>
+      <div>
+        <p>
+          Basicoss es un local de suplementos y productos naturales en Tuxtla.
+          Llevaba su inventario en una hoja de cálculo y necesitaba, además,
+          vender con un carrito, saber cuánto efectivo hay en la caja y llevar
+          el stock de la mercadería que deja en otros locales.
+        </p>
+        <p>
+          Hacía falta una herramienta simple, hecha a su medida, para usar en el
+          mostrador todos los días.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Decisión</h2>
+      <div>
+        <p>
+          Para un negocio chico, la decisión fue qué no construir: ni servidor,
+          ni base de datos, ni hosting. La app es un solo archivo HTML y los
+          datos viven en una planilla de Google que es del negocio (la cuenta de
+          la dueña, no la mía), así que también se puede abrir y editar a mano
+          como cualquier planilla. Un Apps Script hace de puente entre la app y
+          la planilla.
+        </p>
+        <p>
+          Otras dos reglas ordenan el resto: el costo y el precio quedan
+          «fotografiados» en cada venta, para que cambiar un precio mañana no
+          altere la ganancia de ayer, y la app no deja vender más de lo que hay.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Construcción</h2>
+      <ul class="case-list">
+        <li>Inventario con el stock de cada local (la tienda y otros dos donde deja mercadería en consignación), alertas de stock bajo y agotado, stock mínimo por producto y una lista de reposición agrupada por marca, lista para pedirle a cada proveedor.</li>
+        <li>Importación de productos desde un CSV: detecta los repetidos y entiende precios con distintos separadores de miles.</li>
+        <li>Venta con carrito, descuento por artículo (en porcentaje o en pesos), nota por ticket, cálculo del vuelto y comisión de tarjeta, para ver lo que realmente entra.</li>
+        <li>Caja con saldo inicial, ingresos extra, retiros por categoría y gastos. Muestra cuánto efectivo debería haber y el cierre de período lo compara con lo contado.</li>
+        <li>Historial de compras por ticket: anular una venta devuelve el stock.</li>
+        <li>Costo y margen por producto, y ganancia estimada.</li>
+        <li>Catálogo para compartir por WhatsApp, como texto o como imagen con fotos.</li>
+      </ul>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Entrega y cuidado</h2>
+      <div>
+        <p>
+          Los datos son del negocio y se usan todos los días, así que cada
+          actualización se trata con cuidado: un registro de cambios por versión
+          que anota también lo que no se ve en pantalla, una guía de entrega con
+          respaldos antes de tocar nada y una forma de volver atrás, y un ensayo
+          en una planilla de Google de prueba, con el mismo código que usa el
+          local, antes de entregar.
+        </p>
+        <p>
+          La versión 11, en revisión con la clienta, suma protecciones para que
+          no se pierdan datos: el Apps Script rechaza un guardado si otro
+          dispositivo guardó antes o si dejaría una hoja casi vacía, y la app no
+          deja guardar si no pudo leer los datos. La versión instalada se ve en
+          pantalla.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Resultado</h2>
+      <div>
+        <p>
+          En uso diario en el local. La versión 11 (descuentos por artículo,
+          notas en el ticket y protección de los datos) está en revisión con la
+          clienta. Cuando haya resultados de uso, los sumo acá.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Tecnología</h2>
+      <div>
+        <p>
+          HTML, CSS y JavaScript sin framework en un solo archivo, Google Sheets
+          y Google Apps Script, PapaParse para leer CSV y html2canvas para
+          exportar el catálogo. Pruebas automáticas con Playwright y Node: el
+          Apps Script real corre contra una planilla simulada. Desarrollado con
+          asistente de IA (Claude Code); las decisiones de producto, diseño y
+          revisión son mías.
+        </p>
+      </div>
+    </div>
+
+    <div class="case-row reveal">
+      <h2>Pantallas</h2>
+      <div class="case-shots">
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/basicoss/01-vender.jpg" srcset="assets/basicoss/01-vender-360.webp 360w, assets/basicoss/01-vender-720.webp 720w, assets/basicoss/01-vender-1080.webp 1080w, assets/basicoss/01-vender.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Pantalla de venta con un carrito de tres productos, un descuento del 10 % en uno, una nota en el ticket, el total y el vuelto" loading="lazy">
+          <figcaption>Venta con descuento, nota y vuelto</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/basicoss/02-caja.jpg" srcset="assets/basicoss/02-caja-360.webp 360w, assets/basicoss/02-caja-720.webp 720w, assets/basicoss/02-caja-1080.webp 1080w, assets/basicoss/02-caja.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Caja del día con el efectivo esperado, las ventas por método de pago y la ganancia estimada" loading="lazy">
+          <figcaption>Caja: efectivo esperado y totales</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/basicoss/03-inventario.jpg" srcset="assets/basicoss/03-inventario-360.webp 360w, assets/basicoss/03-inventario-720.webp 720w, assets/basicoss/03-inventario-1080.webp 1080w, assets/basicoss/03-inventario.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Inventario con tarjetas de stock bajo y agotado, buscador y tabla de productos por ubicación" loading="lazy">
+          <figcaption>Inventario con alertas de stock</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img width="1600" height="900" src="assets/basicoss/04-historial-ticket.jpg" srcset="assets/basicoss/04-historial-ticket-360.webp 360w, assets/basicoss/04-historial-ticket-720.webp 720w, assets/basicoss/04-historial-ticket-1080.webp 1080w, assets/basicoss/04-historial-ticket.jpg 1600w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 900px) calc(100vw - 80px), 460px" alt="Historial de ventas agrupado por compra, con el descuento y la nota de cada ticket" loading="lazy">
+          <figcaption>Historial por ticket</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="case-end reveal">
+      <p class="project-context">Todas las pantallas y datos de esta página son de demostración, con nombres inventados.</p>
+      <p class="project-cta"><a class="btn btn-primary" href="index.html#contacto">¿Necesitas algo parecido? Hablemos →</a></p>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Paulo Andrade. Todos los derechos reservados.</p>
+    <p class="system-status">// última actualización: <span id="last-updated"></span></p>
+    <a class="back-to-top" href="index.html#inicio">volver arriba ↑</a>
+  </div>
+</footer>
+
+<script src="js/nav.js?v=27"></script>
+<script src="js/gallery.js?v=27"></script>
+<script src="js/lightbox.js?v=27"></script>
+<script src="js/scroll-reveal.js?v=27"></script>
+<script src="js/footer-status.js?v=27"></script>
+</body>
+</html>

@@ -330,19 +330,24 @@
       <!-- Basicoss -->
       <article class="project-card reveal">
         <div class="project-media">
-          <div class="video-embed" data-video-id="PEGAR_ID_VIDEO" data-title="Demo de Basicoss"></div>
+          <video class="project-video" data-preview muted loop playsinline preload="none" width="1280" height="720" poster="assets/basicoss/01-vender-1080.webp" aria-label="Sistema Basicoss — demo con datos ficticios: inventario, importación de productos, venta con descuento y vuelto, caja con cierre, historial por compra y catálogo">
+            <source src="assets/basicoss/demo-basicoss.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="project-body">
           <div class="project-index">Proyecto 03</div>
           <h3>Sistema de gestión Basicoss</h3>
           <p class="project-desc">
-            App de inventario y catálogo para un local de suplementos y
-            productos naturales. Corre en HTML y usa Google Sheets como
-            backend a través de Apps Script — sin base de datos tradicional
-            ni hosting adicional.
+            Sistema de inventario, ventas y caja para un local de suplementos
+            y productos naturales. Funciona en el navegador y guarda todo en
+            una planilla de Google del propio negocio, a través de Apps
+            Script: sin base de datos tradicional ni hosting adicional. Lleva
+            el stock de varios locales, aplica descuentos por artículo y cierra
+            la caja contando el efectivo.
           </p>
           <div class="project-tags">
             <span>Inventario</span>
+            <span>Ventas y caja</span>
             <span>Google Sheets</span>
             <span>Apps Script</span>
           </div>
@@ -350,13 +355,15 @@
           <dl class="project-meta">
             <div>
               <dt>Rol</dt>
-              <dd>Desarrollo end-to-end</dd>
+              <dd>Producto, diseño y desarrollo end-to-end</dd>
             </div>
             <div>
               <dt>Stack</dt>
               <dd>HTML/CSS/JS, Google Sheets, Apps Script</dd>
             </div>
           </dl>
+          <p class="project-note">Demo con datos ficticios.</p>
+          <p class="project-cta"><a class="btn btn-secondary" href="basicoss.html">Ver el caso de estudio →</a></p>
         </div>
       </article>
 
