@@ -245,85 +245,42 @@
 
     <div class="projects">
 
-      <!-- Stage OS -->
+      <!-- Vittapalma -->
       <article class="project-card reveal">
         <div class="project-media">
-          <figure class="gallery-item project-screenshot">
-            <img width="1400" height="787" src="assets/stage-os/screenshot.jpg" srcset="assets/stage-os/screenshot-360.webp 360w, assets/stage-os/screenshot-720.webp 720w, assets/stage-os/screenshot-1080.webp 1080w, assets/stage-os/screenshot.jpg 1400w" sizes="(max-width: 900px) calc(100vw - 48px), min(555px, 48vw)" alt="Stage OS — captura de la cue list en uso" loading="lazy">
-            <figcaption>Screenshot — demo en video próximamente</figcaption>
-          </figure>
+          <video class="project-video" data-preview muted loop playsinline preload="none" width="1280" height="720" poster="assets/vittapalma/01-agenda-1080.webp" aria-label="Sistema Vittapalma — demo con datos ficticios: agenda, ficha con evolución, carga de una sesión con PDF de análisis y hoja imprimible">
+            <source src="assets/vittapalma/demo-vittapalma.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="project-body">
           <div class="project-index">Proyecto 01</div>
-          <h3>Stage OS</h3>
+          <h3>Sistema de gestión Vittapalma</h3>
           <p class="project-desc">
-            Herramienta offline hecha en HTML para gestionar cues de audio y luces
-            durante funciones de teatro en vivo. Se diseñó a medida para una
-            producción real, priorizando una interfaz simple y legible en
-            ambientes oscuros — de bambalinas, sin conexión a internet y sin
-            margen de error.
+            Sistema de escritorio para registrar consultantes y sesiones de
+            terapia Healy, en reemplazo de una planilla en papel. Funciona sin
+            internet: los datos de salud quedan en la computadora de la
+            terapeuta, no en la nube. Lee los PDF de análisis que exporta
+            Healy, los muestra para revisar y corregir, y guarda solo el
+            resumen.
           </p>
           <div class="project-tags">
-            <span>Offline-first</span>
-            <span>Teatro en vivo</span>
-            <span>UI para bambalinas</span>
+            <span>Datos de salud</span>
+            <span>Sin internet</span>
+            <span>App de escritorio</span>
           </div>
-          <p class="project-context">Hecho para una producción teatral de lecturas dramatizadas, San Cristóbal de las Casas.</p>
+          <p class="project-context">Hecho para Vittapalma, espacio de terapia Healy, Tuxtla Gutiérrez</p>
           <dl class="project-meta">
             <div>
               <dt>Rol</dt>
-              <dd>Desarrollo y diseño de interfaz</dd>
+              <dd>Producto, diseño y desarrollo end-to-end</dd>
             </div>
             <div>
               <dt>Stack</dt>
-              <dd>HTML, CSS, JavaScript</dd>
+              <dd>Node.js, Express, SQLite, Electron (Windows y Mac)</dd>
             </div>
           </dl>
-        </div>
-      </article>
-
-      <!-- Karaoke Maker -->
-      <article class="project-card reveal">
-        <div class="project-media">
-          <div class="terminal-window">
-            <div class="terminal-titlebar">
-              <span></span><span></span><span></span>
-              <div class="t-label">karaoke_maker — pipeline</div>
-            </div>
-            <div class="terminal-body"><span class="t-prompt">$</span> python karaoke_maker.py --input cancion.mp3
-
-[1/3] Separando pistas con Demucs...          <span class="t-ok">done</span> <span class="t-dim">(voz, instrumental)</span>
-[2/3] Transcribiendo con faster-whisper...    <span class="t-ok">done</span> <span class="t-dim">(42 líneas)</span>
-[3/3] Alineando texto (torchaudio MMS_FA)...  <span class="t-ok">done</span>
-
-<span class="t-ok">✔ karaoke_cancion.mp4 generado</span></div>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-index">Proyecto 02</div>
-          <h3>Karaoke Maker</h3>
-          <p class="project-desc">
-            Pipeline que separa una pista de audio en voz e instrumental con
-            Demucs, transcribe la letra con faster-whisper y sincroniza el
-            texto línea por línea usando forced alignment (torchaudio MMS_FA)
-            para generar karaoke automáticamente a partir de cualquier canción.
-          </p>
-          <div class="project-tags">
-            <span>Demucs</span>
-            <span>faster-whisper</span>
-            <span>Forced alignment</span>
-          </div>
-          <dl class="project-meta">
-            <div>
-              <dt>Rol</dt>
-              <dd>Diseño y desarrollo del pipeline</dd>
-            </div>
-            <div>
-              <dt>Stack</dt>
-              <dd>Python, Demucs, faster-whisper, torchaudio</dd>
-            </div>
-          </dl>
-          <p class="project-note">Interfaz gráfica básica todavía en desarrollo — hoy el foco está en el pipeline.</p>
+          <p class="project-note">Demo con datos ficticios.</p>
+          <p class="project-cta"><a class="btn btn-secondary" href="vittapalma.html">Ver el caso de estudio →</a></p>
         </div>
       </article>
 
@@ -335,7 +292,7 @@
           </video>
         </div>
         <div class="project-body">
-          <div class="project-index">Proyecto 03</div>
+          <div class="project-index">Proyecto 02</div>
           <h3>Sistema de gestión Basicoss</h3>
           <p class="project-desc">
             Sistema de inventario, ventas y caja para un local de suplementos
@@ -367,42 +324,40 @@
         </div>
       </article>
 
-      <!-- Vittapalma -->
+      <!-- Stage OS -->
       <article class="project-card reveal">
         <div class="project-media">
-          <video class="project-video" data-preview muted loop playsinline preload="none" width="1280" height="720" poster="assets/vittapalma/01-agenda-1080.webp" aria-label="Sistema Vittapalma — demo con datos ficticios: agenda, ficha con evolución, carga de una sesión con PDF de análisis y hoja imprimible">
-            <source src="assets/vittapalma/demo-vittapalma.mp4" type="video/mp4">
-          </video>
+          <figure class="gallery-item project-screenshot">
+            <img width="1400" height="787" src="assets/stage-os/screenshot.jpg" srcset="assets/stage-os/screenshot-360.webp 360w, assets/stage-os/screenshot-720.webp 720w, assets/stage-os/screenshot-1080.webp 1080w, assets/stage-os/screenshot.jpg 1400w" sizes="(max-width: 900px) calc(100vw - 48px), min(555px, 48vw)" alt="Stage OS — captura de la cue list en uso" loading="lazy">
+            <figcaption>Screenshot — demo en video próximamente</figcaption>
+          </figure>
         </div>
         <div class="project-body">
-          <div class="project-index">Proyecto 04</div>
-          <h3>Sistema de gestión Vittapalma</h3>
+          <div class="project-index">Proyecto 03</div>
+          <h3>Stage OS</h3>
           <p class="project-desc">
-            Sistema de escritorio para registrar consultantes y sesiones de
-            terapia Healy, en reemplazo de una planilla en papel. Funciona sin
-            internet: los datos de salud quedan en la computadora de la
-            terapeuta, no en la nube. Lee los PDF de análisis que exporta
-            Healy, los muestra para revisar y corregir, y guarda solo el
-            resumen.
+            Herramienta offline hecha en HTML para gestionar cues de audio y luces
+            durante funciones de teatro en vivo. Se diseñó a medida para una
+            producción real, priorizando una interfaz simple y legible en
+            ambientes oscuros — de bambalinas, sin conexión a internet y sin
+            margen de error.
           </p>
           <div class="project-tags">
-            <span>Datos de salud</span>
-            <span>Sin internet</span>
-            <span>App de escritorio</span>
+            <span>Offline-first</span>
+            <span>Teatro en vivo</span>
+            <span>UI para bambalinas</span>
           </div>
-          <p class="project-context">Hecho para Vittapalma, espacio de terapia Healy, Tuxtla Gutiérrez</p>
+          <p class="project-context">Hecho para una producción teatral de lecturas dramatizadas, San Cristóbal de las Casas.</p>
           <dl class="project-meta">
             <div>
               <dt>Rol</dt>
-              <dd>Producto, diseño y desarrollo end-to-end</dd>
+              <dd>Desarrollo y diseño de interfaz</dd>
             </div>
             <div>
               <dt>Stack</dt>
-              <dd>Node.js, Express, SQLite, Electron (Windows y Mac)</dd>
+              <dd>HTML, CSS, JavaScript</dd>
             </div>
           </dl>
-          <p class="project-note">Demo con datos ficticios.</p>
-          <p class="project-cta"><a class="btn btn-secondary" href="vittapalma.html">Ver el caso de estudio →</a></p>
         </div>
       </article>
 
@@ -412,7 +367,7 @@
           <div class="video-embed" data-video-id="PEGAR_ID_VIDEO" data-title="Demo de Finance OS"></div>
         </div>
         <div class="project-body">
-          <div class="project-index">Proyecto 05</div>
+          <div class="project-index">Proyecto 04</div>
           <h3>Finance OS</h3>
           <p class="project-desc">
             Dashboard personal para trackear ingresos, egresos, saldo de caja
@@ -440,6 +395,51 @@
             </div>
           </dl>
           <p class="project-note">v0.1, en uso activo — deliberadamente sin filtros, gráficos ni integraciones todavía; se agregan solo si el uso real lo justifica.</p>
+        </div>
+      </article>
+
+      <!-- Karaoke Maker -->
+      <article class="project-card reveal">
+        <div class="project-media">
+          <div class="terminal-window">
+            <div class="terminal-titlebar">
+              <span></span><span></span><span></span>
+              <div class="t-label">karaoke_maker — pipeline</div>
+            </div>
+            <div class="terminal-body"><span class="t-prompt">$</span> python karaoke_maker.py --input cancion.mp3
+
+[1/3] Separando pistas con Demucs...          <span class="t-ok">done</span> <span class="t-dim">(voz, instrumental)</span>
+[2/3] Transcribiendo con faster-whisper...    <span class="t-ok">done</span> <span class="t-dim">(42 líneas)</span>
+[3/3] Alineando texto (torchaudio MMS_FA)...  <span class="t-ok">done</span>
+
+<span class="t-ok">✔ karaoke_cancion.mp4 generado</span></div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-index">Proyecto 05</div>
+          <h3>Karaoke Maker</h3>
+          <p class="project-desc">
+            Pipeline que separa una pista de audio en voz e instrumental con
+            Demucs, transcribe la letra con faster-whisper y sincroniza el
+            texto línea por línea usando forced alignment (torchaudio MMS_FA)
+            para generar karaoke automáticamente a partir de cualquier canción.
+          </p>
+          <div class="project-tags">
+            <span>Demucs</span>
+            <span>faster-whisper</span>
+            <span>Forced alignment</span>
+          </div>
+          <dl class="project-meta">
+            <div>
+              <dt>Rol</dt>
+              <dd>Diseño y desarrollo del pipeline</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>Python, Demucs, faster-whisper, torchaudio</dd>
+            </div>
+          </dl>
+          <p class="project-note">Interfaz gráfica básica todavía en desarrollo — hoy el foco está en el pipeline.</p>
         </div>
       </article>
 
