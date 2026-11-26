@@ -48,7 +48,7 @@
     {
           "pagina": "basicoss.html",
           "revision": "contraste real",
-          "contiene": "Necesitas algo parecido",
+          "contiene": "Necesitás algo parecido",
           "motivo": "Falso positivo: medido durante la aparición del bloque. Ya revelado, el botón es texto #05070a sobre #b6ff3c = 16,67:1, comprobado con getComputedStyle"
     },
     {
