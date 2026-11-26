@@ -4,6 +4,11 @@
   "url_base": "https://elnucleointerno.github.io/paulo-andrade/",
   "aceptados": [
     {
+      "revision": "consola",
+      "contiene": "not counting because of: localhost",
+      "motivo": "A propósito: GoatCounter no cuenta las visitas en la compu local y lo avisa en la consola. Solo pasa en local; al revisar la URL publicada esta regla figura como obsoleta"
+    },
+    {
       "pagina": "(sitio)",
       "revision": "peso",
       "contiene": "demo-vittapalma.mp4",
