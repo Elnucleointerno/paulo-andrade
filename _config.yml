@@ -1,0 +1,4 @@
+# GitHub Pages arma el sitio con Jekyll: lo listado acá queda en el repositorio pero no se publica.
+# diseno.html: falta material. Para publicarla, borrar su línea.
+exclude:
+  - diseno.html
